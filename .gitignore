@@ -1,0 +1,6 @@
+.next/
+node_modules/
+data/private-feedback.jsonl
+*.log
+.DS_Store
+
