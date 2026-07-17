@@ -6,13 +6,15 @@ A polished, installable proof of concept for one complete learning journey:
 
 ## Included
 
-- Three chapter-audio players for Genesis 1–3
-- Six verse-order puzzles
-- Two story-sequencing games
+- Three chapter-audio players for Genesis 1–3 with play/pause, seeking, and 1x/1.5x speed
+- Six verse-order quests
+- Two story-sequencing quests
 - Device-local progress persistence
-- A Creation Gem reward and animated celebration after all eight activities
+- One gold coin per completed quest, plus a Creation Gem after all eight quests
+- Per-quest confetti/balloon celebrations, optional success sound, and a distinct unit celebration
+- Direct next-quest navigation and creation-themed game backgrounds
 - A private feedback form that is available only after completion
-- Responsive desktop and mobile layouts, keyboard-operable activities, reduced-motion support, a web manifest, and an offline app shell
+- Responsive desktop and mobile layouts, keyboard-operable quests, reduced-motion support, a web manifest, and an offline app shell
 
 The Bible text is the public-domain World English Bible. Audio is the public-domain WEB recording read by Winfred W. Henson and hosted by eBible.org.
 
@@ -40,7 +42,7 @@ pnpm start
 
 - **Next.js 16 App Router, React 19, TypeScript** for the application
 - **Static typed content** in `data/content.ts` for the single curated unit
-- **Browser localStorage** for anonymous progress, so the journey resumes after reload without an account
+- **Browser localStorage** for anonymous progress, reward, and sound preferences, so the journey resumes after reload without an account
 - **Node API route** for feedback; POSTs append to `data/private-feedback.jsonl`
 - **No feedback read endpoint**; GET returns 405, and the local file is owner-readable only and excluded from Git
 - **Remote public-domain MP3s** for audio, keeping the prototype repository small

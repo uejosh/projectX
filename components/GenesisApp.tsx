@@ -1,53 +1,88 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AudioLibrary } from "@/components/AudioLibrary";
 import { Celebration } from "@/components/Celebration";
 import { FeedbackForm } from "@/components/FeedbackForm";
+import { QuestCelebration } from "@/components/QuestCelebration";
 import { StorySequence } from "@/components/StorySequence";
 import { VersePuzzle } from "@/components/VersePuzzle";
-import { ArrowIcon, BackIcon, BookIcon, CheckIcon, GemIcon, LayersIcon, LockIcon, PuzzleIcon, SparkleIcon } from "@/components/Icons";
-import { storySequences, upcomingUnits, versePuzzles } from "@/data/content";
-import { completedActivityCount, progressPercent } from "@/lib/progress";
+import { ArrowIcon, BackIcon, BookIcon, CheckIcon, CoinIcon, GemIcon, LayersIcon, LockIcon, PuzzleIcon, SparkleIcon, VolumeIcon, VolumeOffIcon } from "@/components/Icons";
+import { nextQuest, storySequences, upcomingUnits, versePuzzles, type QuestRef } from "@/data/content";
+import { coinCount, completedActivityCount, progressPercent } from "@/lib/progress";
 import { useProgress } from "@/components/useProgress";
 
-type Activity = { type: "verse"; id: string } | { type: "story"; id: string } | null;
+type Activity = QuestRef | null;
+type QuestCelebrationState = { title: string; earnsGem: boolean } | null;
 
 export function GenesisApp() {
   const { progress, hydrated, updateProgress, resetProgress } = useProgress();
   const [view, setView] = useState<"path" | "unit">("path");
   const [activity, setActivity] = useState<Activity>(null);
   const [celebrating, setCelebrating] = useState(false);
+  const [questCelebration, setQuestCelebration] = useState<QuestCelebrationState>(null);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+  }, [activity, view]);
 
-  function completeVerse(id: string) {
+  function completeVerse(id: string, title: string) {
     if (progress.completedVerseIds.includes(id)) return;
     const completedVerseIds = [...progress.completedVerseIds, id];
     const earnsGem = !progress.gemAwarded && completedVerseIds.length >= 6 && progress.completedStoryIds.length >= 2;
-    updateProgress((current) => ({ ...current, completedVerseIds, gemAwarded: current.gemAwarded || earnsGem }));
-    if (earnsGem) setCelebrating(true);
+    updateProgress((current) => ({
+      ...current,
+      completedVerseIds,
+      coinAwardedQuestIds: current.coinAwardedQuestIds.includes(id) ? current.coinAwardedQuestIds : [...current.coinAwardedQuestIds, id],
+      gemAwarded: current.gemAwarded || earnsGem,
+    }));
+    setQuestCelebration({ title, earnsGem });
   }
 
-  function completeStory(id: string) {
+  function completeStory(id: string, title: string) {
     if (progress.completedStoryIds.includes(id)) return;
     const completedStoryIds = [...progress.completedStoryIds, id];
     const earnsGem = !progress.gemAwarded && progress.completedVerseIds.length >= 6 && completedStoryIds.length >= 2;
-    updateProgress((current) => ({ ...current, completedStoryIds, gemAwarded: current.gemAwarded || earnsGem }));
-    if (earnsGem) setCelebrating(true);
+    updateProgress((current) => ({
+      ...current,
+      completedStoryIds,
+      coinAwardedQuestIds: current.coinAwardedQuestIds.includes(id) ? current.coinAwardedQuestIds : [...current.coinAwardedQuestIds, id],
+      gemAwarded: current.gemAwarded || earnsGem,
+    }));
+    setQuestCelebration({ title, earnsGem });
+  }
+
+  function continueFromQuest(current: QuestRef) {
+    const next = nextQuest(current);
+    if (next) {
+      setActivity(next);
+      return;
+    }
+    setActivity(null);
+    setView("unit");
+  }
+
+  function closeQuestCelebration() {
+    const shouldCelebrateGem = questCelebration?.earnsGem;
+    setQuestCelebration(null);
+    if (shouldCelebrateGem) setCelebrating(true);
   }
 
   if (activity?.type === "verse") {
     const puzzle = versePuzzles.find((item) => item.id === activity.id)!;
-    return <VersePuzzle puzzle={puzzle} completed={progress.completedVerseIds.includes(puzzle.id)} onComplete={() => completeVerse(puzzle.id)} onClose={() => setActivity(null)} />;
+    const followingQuest = nextQuest(activity);
+    return <><VersePuzzle key={puzzle.id} puzzle={puzzle} completed={progress.completedVerseIds.includes(puzzle.id)} onComplete={() => completeVerse(puzzle.id, puzzle.reference)} onBackToUnit={() => setActivity(null)} onContinue={() => continueFromQuest(activity)} continueLabel={followingQuest ? "Continue your quest" : "View your unit reward"} /><QuestCelebration open={Boolean(questCelebration)} questTitle={questCelebration?.title ?? puzzle.reference} soundEnabled={progress.soundEnabled} onClose={closeQuestCelebration} /><Celebration open={celebrating} onClose={() => setCelebrating(false)} /></>;
   }
 
   if (activity?.type === "story") {
     const story = storySequences.find((item) => item.id === activity.id)!;
-    return <StorySequence story={story} completed={progress.completedStoryIds.includes(story.id)} onComplete={() => completeStory(story.id)} onClose={() => setActivity(null)} />;
+    const followingQuest = nextQuest(activity);
+    return <><StorySequence key={story.id} story={story} completed={progress.completedStoryIds.includes(story.id)} onComplete={() => completeStory(story.id, story.title)} onBackToUnit={() => setActivity(null)} onContinue={() => continueFromQuest(activity)} continueLabel={followingQuest ? "Continue your quest" : "View your unit reward"} /><QuestCelebration open={Boolean(questCelebration)} questTitle={questCelebration?.title ?? story.title} soundEnabled={progress.soundEnabled} onClose={closeQuestCelebration} /><Celebration open={celebrating} onClose={() => setCelebrating(false)} /></>;
   }
 
   const completeCount = completedActivityCount(progress);
   const percent = progressPercent(progress);
+  const coins = coinCount(progress);
 
   return (
     <div className="site-shell">
@@ -56,6 +91,8 @@ export function GenesisApp() {
           <span className="brand-mark"><BookIcon size={21} /></span><span><strong>JX</strong><small>Bible Journey</small></span>
         </button>
         <div className="header-actions">
+          <button className="sound-toggle" onClick={() => updateProgress((current) => ({ ...current, soundEnabled: !current.soundEnabled }))} aria-label={progress.soundEnabled ? "Mute celebration sounds" : "Turn on celebration sounds"} aria-pressed={!progress.soundEnabled}>{progress.soundEnabled ? <VolumeIcon size={17} /> : <VolumeOffIcon size={17} />}</button>
+          <div className="coin-counter" aria-label={`${coins} gold coins earned`}><CoinIcon size={18} /><strong>{coins}</strong></div>
           <div className="gem-counter" aria-label={`${progress.gemAwarded ? 1 : 0} gems earned`}><GemIcon size={18} /><strong>{progress.gemAwarded ? 1 : 0}</strong></div>
           <span className="guest-pill">Guest journey</span>
         </div>
@@ -79,7 +116,7 @@ export function GenesisApp() {
             <div className="path-list">
               <article className="unit-card active-unit">
                 <div className="unit-number"><span>UNIT</span><strong>1</strong></div>
-                <div className="unit-copy"><div className="unit-topline"><span>Genesis 1–3</span>{progress.gemAwarded && <span className="earned-label"><GemIcon size={14}/> Gem earned</span>}</div><h3>Creation and the Fall</h3><p>From the first light to the garden, the choice, and the promise beyond it.</p><div className="unit-progress"><div><span style={{ width: `${percent}%` }} /></div><small>{completeCount} of 8 activities</small></div></div>
+                <div className="unit-copy"><div className="unit-topline"><span>Genesis 1–3</span>{progress.gemAwarded && <span className="earned-label"><GemIcon size={14}/> Gem earned</span>}</div><h3>Creation and the Fall</h3><p>From the first light to the garden, the choice, and the promise beyond it.</p><div className="unit-progress"><div><span style={{ width: `${percent}%` }} /></div><small>{completeCount} of 8 quests</small></div></div>
                 <button className="round-arrow" onClick={() => setView("unit")} aria-label="Open Unit 1"><ArrowIcon size={20}/></button>
               </article>
               {upcomingUnits.map((unit) => <article className="unit-card locked-unit" key={unit.number}><div className="unit-number"><span>UNIT</span><strong>{unit.number}</strong></div><div className="unit-copy"><div className="unit-topline"><span>{unit.chapters}</span></div><h3>{unit.title}</h3><p>Continue the Genesis story after completing the proof-of-concept unit.</p></div><div className="locked-icon"><LockIcon size={17}/></div></article>)}
@@ -91,7 +128,7 @@ export function GenesisApp() {
           <button className="back-button" onClick={() => setView("path")}><BackIcon size={17}/> Genesis journey</button>
           <section className="unit-hero">
             <div className="unit-hero-copy"><p className="eyebrow light">Unit 1 · Genesis 1–3</p><h1>Creation<br />and the Fall</h1><p>Listen closely. Rebuild the words. Trace the story from a world without form to the gates of Eden.</p></div>
-            <div className="unit-progress-card"><div className="progress-ring" style={{ "--progress": `${percent * 3.6}deg` } as React.CSSProperties}><div><strong>{percent}%</strong><span>complete</span></div></div><div><p>{completeCount} of 8 activities</p><small>Your progress is saved on this device.</small></div></div>
+            <div className="unit-progress-card"><div className="progress-ring" style={{ "--progress": `${percent * 3.6}deg` } as React.CSSProperties}><div><strong>{percent}%</strong><span>complete</span></div></div><div><p>{completeCount} of 8 quests</p><small>Your progress is saved on this device.</small></div></div>
           </section>
 
           <AudioLibrary started={progress.audioStarted} onStarted={(chapter) => updateProgress((current) => current.audioStarted.includes(chapter) ? current : { ...current, audioStarted: [...current.audioStarted, chapter] })} />
@@ -111,7 +148,7 @@ export function GenesisApp() {
           </section>
 
           <section className={`reward-card ${progress.gemAwarded ? "earned" : ""}`}>
-            <div className="reward-gem"><GemIcon size={52}/></div><div><p className="eyebrow">Unit reward</p><h2>{progress.gemAwarded ? "Creation Gem collected" : "The Creation Gem awaits"}</h2><p>{progress.gemAwarded ? "A reminder that you completed Genesis 1–3." : `${8 - completeCount} activities remain. Complete every puzzle and sequence to earn it.`}</p></div>{progress.gemAwarded && <button className="secondary-button" onClick={() => setCelebrating(true)}>View reward</button>}
+            <div className="reward-gem"><GemIcon size={52}/></div><div><p className="eyebrow">Unit reward</p><h2>{progress.gemAwarded ? "Creation Gem collected" : "The Creation Gem awaits"}</h2><p>{progress.gemAwarded ? "A reminder that you completed Genesis 1–3." : `${8 - completeCount} quests remain. Complete every puzzle and sequence to earn it.`}</p></div>{progress.gemAwarded && <button className="secondary-button" onClick={() => setCelebrating(true)}>View reward</button>}
           </section>
 
           {progress.gemAwarded && <FeedbackForm anonymousId={progress.anonymousId} submitted={progress.feedbackSubmitted} onSubmitted={() => updateProgress((current) => ({ ...current, feedbackSubmitted: true }))} />}

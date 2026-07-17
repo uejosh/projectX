@@ -30,6 +30,10 @@ export type StorySequenceData = {
   cards: StoryCard[];
 };
 
+export type QuestRef =
+  | { type: "verse"; id: string }
+  | { type: "story"; id: string };
+
 const AUDIO_ROOT = "https://ebible.org/eng-web/audio/01_Genesis";
 
 export const audioChapters: AudioChapter[] = [
@@ -73,6 +77,23 @@ export const storySequences: StorySequenceData[] = [
   }
 ];
 
+/** The canonical play order. Unit-page selection remains open and non-linear. */
+export const quests: QuestRef[] = [
+  { type: "verse", id: "gen-1-1" },
+  { type: "verse", id: "gen-1-3" },
+  { type: "verse", id: "gen-1-27" },
+  { type: "verse", id: "gen-2-7" },
+  { type: "verse", id: "gen-2-18" },
+  { type: "verse", id: "gen-3-9" },
+  { type: "story", id: "creation-days" },
+  { type: "story", id: "garden-fall" },
+];
+
+export function nextQuest(current: QuestRef): QuestRef | null {
+  const index = quests.findIndex((quest) => quest.type === current.type && quest.id === current.id);
+  return index >= 0 ? quests[index + 1] ?? null : null;
+}
+
 export const upcomingUnits = [
   { number: 2, title: "Cain, Abel & Noah", chapters: "Genesis 4-9" },
   { number: 3, title: "Nations & Babel", chapters: "Genesis 10-11" },
@@ -80,4 +101,3 @@ export const upcomingUnits = [
   { number: 5, title: "Isaac & Jacob", chapters: "Genesis 26-36" },
   { number: 6, title: "Joseph's story", chapters: "Genesis 37-50" }
 ];
-

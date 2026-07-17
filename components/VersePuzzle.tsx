@@ -3,18 +3,25 @@
 import { useMemo, useState } from "react";
 import type { VersePuzzleData } from "@/data/content";
 import { CheckIcon, PuzzleIcon, RotateIcon } from "@/components/Icons";
+import { CreationBackdrop } from "@/components/CreationBackdrop";
 
 type Props = {
   puzzle: VersePuzzleData;
   completed: boolean;
   onComplete: () => void;
-  onClose: () => void;
+  onBackToUnit: () => void;
+  onContinue: () => void;
+  continueLabel: string;
 };
 
 type Piece = { key: string; text: string };
 
+function orderedPieces(puzzle: VersePuzzleData): Piece[] {
+  return puzzle.pieces.map((text, index) => ({ key: `${puzzle.id}-${index}`, text }));
+}
+
 function shuffledPieces(puzzle: VersePuzzleData): Piece[] {
-  const pieces = puzzle.pieces.map((text, index) => ({ key: `${puzzle.id}-${index}`, text }));
+  const pieces = orderedPieces(puzzle);
   for (let index = pieces.length - 1; index > 0; index -= 1) {
     const swapWith = Math.floor(Math.random() * (index + 1));
     [pieces[index], pieces[swapWith]] = [pieces[swapWith], pieces[index]];
@@ -23,10 +30,11 @@ function shuffledPieces(puzzle: VersePuzzleData): Piece[] {
   return pieces;
 }
 
-export function VersePuzzle({ puzzle, completed, onComplete, onClose }: Props) {
+export function VersePuzzle({ puzzle, completed, onComplete, onBackToUnit, onContinue, continueLabel }: Props) {
   const initial = useMemo(() => shuffledPieces(puzzle), [puzzle]);
-  const [bank, setBank] = useState<Piece[]>(initial);
-  const [answer, setAnswer] = useState<Piece[]>([]);
+  const completedAnswer = useMemo(() => orderedPieces(puzzle), [puzzle]);
+  const [bank, setBank] = useState<Piece[]>(completed ? [] : initial);
+  const [answer, setAnswer] = useState<Piece[]>(completed ? completedAnswer : []);
   const [status, setStatus] = useState<"idle" | "wrong" | "right">(completed ? "right" : "idle");
 
   function choose(piece: Piece) {
@@ -60,9 +68,10 @@ export function VersePuzzle({ puzzle, completed, onComplete, onClose }: Props) {
   }
 
   return (
-    <div className="activity-shell">
+    <div className="activity-shell verse-theme">
+      <CreationBackdrop variant="verse" />
       <header className="activity-header">
-        <button className="text-button" onClick={onClose}>← Back to unit</button>
+        <button className="text-button" onClick={onBackToUnit}>← Back to unit</button>
         <span className="activity-kind"><PuzzleIcon size={16} /> Verse order</span>
       </header>
 
@@ -92,11 +101,11 @@ export function VersePuzzle({ puzzle, completed, onComplete, onClose }: Props) {
           </div>
         </section>
 
-        {status === "wrong" && <div className="activity-message error" role="alert"><strong>Nearly there.</strong> The phrases are all useful—try a different order.</div>}
-        {status === "right" && <div className="activity-message success" role="status"><CheckIcon size={20} /><div><strong>Beautifully remembered.</strong><span>{puzzle.reference} is complete.</span></div></div>}
+        {status === "wrong" && <div className="activity-message error" role="alert"><strong>Nearly there.</strong><span>The phrases are all useful—try a different order.</span></div>}
+        {status === "right" && <div className="activity-message success" role="status"><CheckIcon size={26} /><div><strong>Beautifully remembered!</strong><span>{puzzle.reference} is complete.</span></div></div>}
 
-        <div className="activity-actions">
-          {status === "right" ? <button className="primary-button" onClick={onClose}>Continue the journey</button> : <button className="primary-button" onClick={check} disabled={answer.length !== puzzle.pieces.length}>Check my order</button>}
+        <div className={`activity-actions ${status === "right" ? "completion-actions" : ""}`}>
+          {status === "right" ? <><button className="secondary-button" onClick={onBackToUnit}>← Back to unit</button><button className="primary-button" onClick={onContinue}>{continueLabel}</button></> : <button className="primary-button" onClick={check} disabled={answer.length !== puzzle.pieces.length}>Check my order</button>}
         </div>
       </main>
     </div>

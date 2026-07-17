@@ -3,12 +3,15 @@
 import { useMemo, useState } from "react";
 import type { StoryCard, StorySequenceData } from "@/data/content";
 import { CheckIcon, DownIcon, LayersIcon, RotateIcon, UpIcon } from "@/components/Icons";
+import { CreationBackdrop } from "@/components/CreationBackdrop";
 
 type Props = {
   story: StorySequenceData;
   completed: boolean;
   onComplete: () => void;
-  onClose: () => void;
+  onBackToUnit: () => void;
+  onContinue: () => void;
+  continueLabel: string;
 };
 
 function shuffle(cards: StoryCard[]) {
@@ -21,8 +24,8 @@ function shuffle(cards: StoryCard[]) {
   return result;
 }
 
-export function StorySequence({ story, completed, onComplete, onClose }: Props) {
-  const initial = useMemo(() => shuffle(story.cards), [story]);
+export function StorySequence({ story, completed, onComplete, onBackToUnit, onContinue, continueLabel }: Props) {
+  const initial = useMemo(() => completed ? [...story.cards] : shuffle(story.cards), [completed, story]);
   const [cards, setCards] = useState(initial);
   const [status, setStatus] = useState<"idle" | "wrong" | "right">(completed ? "right" : "idle");
 
@@ -48,9 +51,10 @@ export function StorySequence({ story, completed, onComplete, onClose }: Props) 
   }
 
   return (
-    <div className="activity-shell">
+    <div className="activity-shell sequence-theme">
+      <CreationBackdrop variant="sequence" />
       <header className="activity-header">
-        <button className="text-button" onClick={onClose}>← Back to unit</button>
+        <button className="text-button" onClick={onBackToUnit}>← Back to unit</button>
         <span className="activity-kind"><LayersIcon size={16} /> Story sequence</span>
       </header>
 
@@ -80,11 +84,11 @@ export function StorySequence({ story, completed, onComplete, onClose }: Props) 
           ))}
         </ol>
 
-        {status === "wrong" && <div className="activity-message error" role="alert"><strong>Not quite yet.</strong> Look for what God creates first and what comes after.</div>}
-        {status === "right" && <div className="activity-message success" role="status"><CheckIcon size={20} /><div><strong>The whole story is in place.</strong><span>{story.title} is complete.</span></div></div>}
+        {status === "wrong" && <div className="activity-message error" role="alert"><strong>Not quite yet.</strong><span>Look for what God creates first and what comes after.</span></div>}
+        {status === "right" && <div className="activity-message success" role="status"><CheckIcon size={26} /><div><strong>The whole story is in place!</strong><span>{story.title} is complete.</span></div></div>}
 
-        <div className="activity-actions">
-          {status === "right" ? <button className="primary-button" onClick={onClose}>Continue the journey</button> : <button className="primary-button" onClick={check}>Check my sequence</button>}
+        <div className={`activity-actions ${status === "right" ? "completion-actions" : ""}`}>
+          {status === "right" ? <><button className="secondary-button" onClick={onBackToUnit}>← Back to unit</button><button className="primary-button" onClick={onContinue}>{continueLabel}</button></> : <button className="primary-button" onClick={check}>Check my sequence</button>}
         </div>
       </main>
     </div>

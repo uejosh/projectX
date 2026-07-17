@@ -12,8 +12,8 @@ The MVP should let a user:
 2. Open the Genesis learning path.
 3. Select Unit 1.
 4. Listen to Genesis chapters 1-3.
-5. Complete verse-order and story-sequencing games.
-6. Receive immediate feedback, completion animation, and a virtual gem.
+5. Complete verse-order and story-sequencing quests.
+6. Receive immediate feedback, one coin per quest, completion animation, and a virtual gem for the unit.
 7. Resume progress later on the same device.
 8. Submit private pilot feedback after completion.
 
@@ -34,7 +34,7 @@ Bible game
       -> Section / Bible book (Genesis, Revelation, etc.)
         -> Themed unit
           -> Chapter audio
-          -> Game activities
+          -> Game quests
             -> Individual puzzles/questions
 ```
 
@@ -70,7 +70,7 @@ The content lead also intends to define three more game types later. Those shoul
 ### Progression and rewards
 
 - Users may open units in any order; progression is not strictly locked.
-- Completion should be tracked per activity and per unit.
+- Completion should be tracked per quest and per unit.
 - Completing every required unit in a section/book earns a virtual precious stone or gem.
 - Rewards are not real money and should not display monetary value.
 - Completion may also show a rank, encouraging Scripture, confetti, or another celebratory animation.
@@ -97,12 +97,12 @@ Validate the riskiest assumption: **Will users enjoy and complete a short Bible 
 - Genesis section screen showing all six planned units, with Unit 1 active and the others marked "Coming soon."
 - Unit 1 content for Genesis 1-3.
 - Three chapter audio tracks.
-- Six to nine verse puzzles selected across Genesis 1-3.
-- One or two story-sequencing activities.
+- Six to nine verse-puzzle quests selected across Genesis 1-3.
+- One or two story-sequencing quests.
 - Instructions and a short tutorial for each interaction.
 - Correct/incorrect feedback and retry.
 - Progress persistence for an anonymous user.
-- Unit completion, confetti, one prototype gem, and an encouraging message.
+- Per-quest coins and celebration, plus unit completion, confetti, one prototype gem, and an encouraging message.
 - Private feedback form after completion.
 - Basic product analytics and error monitoring.
 - A simple content import format; no full content-management system.
@@ -132,10 +132,10 @@ Landing page
   -> English Bible
   -> Genesis path
   -> Unit 1: Creation and the Fall
-  -> Choose audio or activity
-  -> Complete activity
+  -> Choose audio or quest
+  -> Complete quest
   -> See feedback and progress
-  -> Finish required activities
+  -> Finish required quests
   -> Earn gem and encouragement
   -> Submit private feedback
 ```
@@ -148,7 +148,7 @@ The app should remember the guest's progress. An account-upgrade option can be a
 
 - The value proposition is understandable in one sentence.
 - A user can start without email, phone number, or password.
-- A short first-run guide explains audio, activities, and rewards.
+- A short first-run guide explains audio, quests, and rewards.
 
 ### B. Genesis path
 
@@ -158,7 +158,7 @@ The app should remember the guest's progress. An account-upgrade option can be a
 
 ### C. Unit page
 
-- Shows the unit title, Genesis 1-3 range, progress, audio controls, and activities.
+- Shows the unit title, Genesis 1-3 range, progress, audio controls, and quests.
 - Audio can be played, paused, scrubbed, and switched by chapter.
 - The page remains usable on a low-width mobile screen.
 
@@ -178,7 +178,7 @@ The app should remember the guest's progress. An account-upgrade option can be a
 
 ### F. Progress and reward
 
-- Progress is computed from required activities, not merely page visits.
+- Progress is computed from required quests, not merely page visits.
 - Refreshing or closing the browser does not erase completed work on the same device.
 - Completing the configured MVP section triggers one gem, animation, and encouragement message only once.
 
@@ -305,7 +305,7 @@ Assumption: one primary developer and one primary content/instructional-design l
 
 ### Week 5 - Content completion and QA
 
-- Load six to nine reviewed verse puzzles and one or two sequencing activities.
+- Load six to nine reviewed verse puzzles and one or two sequencing quests.
 - Add final green Genesis assets and illustrations.
 - Test mobile layouts, slow connections, audio fallback, accessibility, scoring, persistence, and error states.
 - Run internal content and theological review.
@@ -326,15 +326,15 @@ Assumption: one primary developer and one primary content/instructional-design l
 Treat initial values as hypotheses, then set numerical targets once the pilot group size is known.
 
 - Activation: percentage who start Unit 1 after landing.
-- First-value: percentage who complete one activity.
-- Unit completion: percentage who complete all required MVP activities.
+- First-value: percentage who complete one quest.
+- Unit completion: percentage who complete all required MVP quests.
 - Return behavior: percentage who return within seven days.
-- Audio utility: percentage who play audio before or after a failed activity.
+- Audio utility: percentage who play audio before or after a failed quest.
 - Puzzle usability: retries, resets, abandonment, and time to completion.
 - Satisfaction: post-completion score and recurring qualitative themes.
 - Reliability: page-error rate, failed audio loads, and lost-progress reports.
 
-The primary MVP metric should be **Unit 1 completion among users who start the first activity**. It directly tests whether the learning loop is understandable and motivating.
+The primary MVP metric should be **Unit 1 completion among users who start the first quest**. It directly tests whether the learning loop is understandable and motivating.
 
 ## 10. Risks and mitigations
 
@@ -364,7 +364,7 @@ The primary MVP metric should be **Unit 1 completion among users who start the f
 ### Pilot release - Genesis + Revelation
 
 - Define the Revelation unit map.
-- Produce and review all required text, activities, audio, and art.
+- Produce and review all required text, quests, audio, and art.
 - Test book-level navigation, two section themes, multiple gems, ranks, and encouragement messages.
 - Run the three-month feedback pilot discussed in the meeting.
 
