@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { CoinIcon, SparkleIcon } from "@/components/Icons";
 
 type Props = {
@@ -29,7 +31,10 @@ function playSuccessChime() {
   window.setTimeout(() => void context.close(), 900);
 }
 
+gsap.registerPlugin(useGSAP);
+
 export function QuestCelebration({ open, questTitle, soundEnabled, onClose }: Props) {
+  const overlayRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
@@ -41,9 +46,25 @@ export function QuestCelebration({ open, questTitle, soundEnabled, onClose }: Pr
     return () => previousFocusRef.current?.focus();
   }, [open, soundEnabled]);
 
+  useGSAP(() => {
+    if (!open || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    gsap.timeline({ defaults: { ease: "back.out(1.6)" } })
+      .from(".quest-celebration-card", { opacity: 0, y: 38, scale: 0.76, duration: 0.58 })
+      .from(".coin-pedestal", { opacity: 0, scale: 0, rotationY: -180, duration: 0.7 }, "-=0.38")
+      .from(".balloon", { opacity: 0, y: 100, scale: 0.5, duration: 0.7, stagger: 0.1 }, "-=0.62")
+      .from(".quest-celebration-card > .eyebrow, .quest-celebration-card > h2, .quest-celebration-card > p, .quest-celebration-card > .reward-pill, .quest-celebration-card > button", {
+        opacity: 0,
+        y: 14,
+        duration: 0.35,
+        stagger: 0.055,
+        ease: "power2.out",
+      }, "-=0.42");
+  }, { dependencies: [open], scope: overlayRef, revertOnUpdate: true });
+
   if (!open) return null;
   return (
-    <div className="celebration-overlay quest-celebration-overlay" role="dialog" aria-modal="true" aria-labelledby="quest-celebration-title" onKeyDown={(event) => { if (event.key === "Escape") onClose(); }}>
+    <div ref={overlayRef} className="celebration-overlay quest-celebration-overlay" role="dialog" aria-modal="true" aria-labelledby="quest-celebration-title" onKeyDown={(event) => { if (event.key === "Escape") onClose(); }}>
       <div className="confetti quest-confetti" aria-hidden="true">
         {Array.from({ length: 20 }, (_, index) => <i key={index} style={{ "--i": index } as React.CSSProperties} />)}
         <span className="balloon balloon-one" /><span className="balloon balloon-two" /><span className="balloon balloon-three" />

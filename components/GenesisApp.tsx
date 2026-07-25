@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { AudioLibrary } from "@/components/AudioLibrary";
 import { Celebration } from "@/components/Celebration";
+import { Ripple } from "@/components/canvasui/Ripple";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { QuestCelebration } from "@/components/QuestCelebration";
 import { StorySequence } from "@/components/StorySequence";
@@ -15,7 +18,10 @@ import { useProgress } from "@/components/useProgress";
 type Activity = QuestRef | null;
 type QuestCelebrationState = { title: string; earnsGem: boolean } | null;
 
+gsap.registerPlugin(useGSAP);
+
 export function GenesisApp() {
+  const shellRef = useRef<HTMLDivElement>(null);
   const { progress, hydrated, updateProgress, resetProgress } = useProgress();
   const [view, setView] = useState<"path" | "unit">("path");
   const [activity, setActivity] = useState<Activity>(null);
@@ -25,6 +31,28 @@ export function GenesisApp() {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0 });
   }, [activity, view]);
+
+  useGSAP(() => {
+    if (!hydrated || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
+    if (view === "path") {
+      timeline
+        .from(".hero-copy > *", { opacity: 0, y: 28, duration: 0.7, stagger: 0.09 })
+        .from(".hero-art", { opacity: 0, scale: 0.82, rotation: -8, duration: 1 }, "-=0.65")
+        .from(".unit-card", { opacity: 0, y: 24, duration: 0.55, stagger: 0.08 }, "-=0.45");
+    } else {
+      timeline
+        .from(".unit-hero-copy > *", { opacity: 0, y: 24, duration: 0.65, stagger: 0.08 })
+        .from(".unit-progress-card", { opacity: 0, scale: 0.9, duration: 0.65 }, "-=0.45")
+        .from(".audio-card, .activity-card, .story-game-card, .reward-card", {
+          opacity: 0,
+          y: 22,
+          duration: 0.5,
+          stagger: 0.055,
+        }, "-=0.25");
+    }
+  }, { dependencies: [hydrated, view], scope: shellRef, revertOnUpdate: true });
 
   function completeVerse(id: string, title: string) {
     if (progress.completedVerseIds.includes(id)) return;
@@ -85,7 +113,7 @@ export function GenesisApp() {
   const coins = coinCount(progress);
 
   return (
-    <div className="site-shell">
+    <div className="site-shell" ref={shellRef}>
       <header className="site-header">
         <button className="brand" onClick={() => { setView("path"); setActivity(null); }} aria-label="JX Bible journey home">
           <span className="brand-mark"><BookIcon size={21} /></span><span><strong>JX</strong><small>Bible Journey</small></span>
@@ -100,16 +128,18 @@ export function GenesisApp() {
 
       {!hydrated ? <main className="loading-state"><div className="loading-gem"><GemIcon size={36} /></div><p>Opening your journey…</p></main> : view === "path" ? (
         <main className="path-page">
-          <section className="path-hero">
-            <div className="hero-glow" />
-            <div className="hero-copy">
-              <p className="eyebrow light">English Bible · World English Bible</p>
-              <h1>Begin at the<br /><em>beginning.</em></h1>
-              <p>Follow Genesis as a guided journey—listen to each chapter, rebuild its verses, and put its story in order.</p>
-              <button className="hero-button" onClick={() => setView("unit")}>{completeCount ? "Continue Unit 1" : "Start Unit 1"}<ArrowIcon size={18} /></button>
-            </div>
-            <div className="hero-art" aria-hidden="true"><span className="orbit orbit-one"/><span className="orbit orbit-two"/><div className="world"><SparkleIcon size={35}/><span>GENESIS</span><strong>01</strong></div><i className="star s1">✦</i><i className="star s2">·</i><i className="star s3">✧</i></div>
-          </section>
+          <Ripple className="path-hero-ripple" amplitude={0.38} speed={0.55} wavelength={95} rings={2} decay={1.2} refraction={65} dispersion={0.25} shine={0.7} trigger="hover" interval={4.5}>
+            <section className="path-hero">
+              <div className="hero-glow" />
+              <div className="hero-copy">
+                <p className="eyebrow light">English Bible · World English Bible</p>
+                <h1>Begin at the<br /><em>beginning.</em></h1>
+                <p>Follow Genesis as a guided journey—listen to each chapter, rebuild its verses, and put its story in order.</p>
+                <button className="hero-button" onClick={() => setView("unit")}>{completeCount ? "Continue Unit 1" : "Start Unit 1"}<ArrowIcon size={18} /></button>
+              </div>
+              <div className="hero-art" aria-hidden="true"><span className="orbit orbit-one"/><span className="orbit orbit-two"/><div className="world"><SparkleIcon size={35}/><span>GENESIS</span><strong>01</strong></div><i className="star s1">✦</i><i className="star s2">·</i><i className="star s3">✧</i></div>
+            </section>
+          </Ripple>
 
           <section className="journey-section" aria-labelledby="journey-heading">
             <div className="journey-heading"><div><p className="eyebrow">The book of beginnings</p><h2 id="journey-heading">Genesis journey</h2></div><p>6 units · 50 chapters</p></div>
