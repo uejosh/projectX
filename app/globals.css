@@ -248,3 +248,26 @@ input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 
 .unit-page{overflow:clip}
 .unit-page>.floating-creation-svgs{inset:0}
+
+
+/* Emphatic floating motion: fourteen symbols with wider, faster travel */
+.floating-svg{opacity:.44;filter:drop-shadow(0 12px 20px #12392f42);will-change:transform,opacity;animation-duration:4.6s}
+.floating-star{width:58px;animation-duration:3.6s}
+.floating-leaf{width:96px;animation-duration:4.4s}
+.floating-fish-svg{width:108px;animation-duration:5.1s}
+.floating-planet{width:98px;animation-duration:5.6s}
+.floating-bird-svg{width:92px;animation-duration:4.1s}
+.floating-wave-svg{width:130px;animation-duration:4.8s}
+.floating-sprout{width:78px;animation-duration:5.3s}
+.floating-alt{animation-name:floating-svg-sweep;animation-direction:alternate-reverse}
+.floating-alt.floating-star{left:72%;right:auto;top:3%;width:48px;animation-delay:-1.2s}
+.floating-alt.floating-leaf{left:29%;right:auto;top:27%;width:82px;animation-delay:-3.1s}
+.floating-alt.floating-fish-svg{left:auto;right:14%;top:41%;width:116px;animation-delay:-2.4s}
+.floating-alt.floating-planet{left:32%;right:auto;top:58%;width:88px;animation-delay:-4.2s}
+.floating-alt.floating-bird-svg{left:auto;right:24%;top:70%;width:98px;animation-delay:-.8s}
+.floating-alt.floating-wave-svg{left:22%;right:auto;top:87%;width:142px;animation-delay:-2.9s}
+.floating-alt.floating-sprout{left:auto;right:38%;top:15%;width:72px;animation-delay:-4.7s}
+.creation-backdrop .floating-svg{opacity:.52}
+@keyframes floating-svg-drift{0%,100%{transform:translate3d(-10px,12px,0) rotate(-10deg) scale(.92);opacity:.3}50%{transform:translate3d(52px,-46px,0) rotate(16deg) scale(1.16);opacity:.62}}
+@keyframes floating-svg-sweep{0%,100%{transform:translate3d(18px,-22px,0) rotate(13deg) scale(1.12);opacity:.58}50%{transform:translate3d(-58px,42px,0) rotate(-18deg) scale(.86);opacity:.32}}
+@media(max-width:720px){.floating-svg{width:56px;height:56px;opacity:.36}.floating-leaf,.floating-planet{right:0}.floating-fish-svg{left:-8px}.floating-sprout{display:block}.floating-alt.floating-fish-svg{right:3%}.floating-alt.floating-wave-svg{left:8%}.creation-backdrop .floating-svg{opacity:.43}}
