@@ -38,18 +38,18 @@ export function GenesisApp() {
     const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
     if (view === "path") {
       timeline
-        .from(".hero-copy > *", { opacity: 0, y: 28, duration: 0.7, stagger: 0.09 })
+        .from(".hero-copy > *", { y: 28, duration: 0.7, stagger: 0.09, clearProps: "transform" })
         .from(".hero-art", { opacity: 0, scale: 0.82, rotation: -8, duration: 1 }, "-=0.65")
-        .from(".unit-card", { opacity: 0, y: 24, duration: 0.55, stagger: 0.08 }, "-=0.45");
+        .from(".unit-card", { y: 24, duration: 0.55, stagger: 0.08, clearProps: "transform" }, "-=0.45");
     } else {
       timeline
-        .from(".unit-hero-copy > *", { opacity: 0, y: 24, duration: 0.65, stagger: 0.08 })
-        .from(".unit-progress-card", { opacity: 0, scale: 0.9, duration: 0.65 }, "-=0.45")
+        .from(".unit-hero-copy > *", { y: 24, duration: 0.65, stagger: 0.08, clearProps: "transform" })
+        .from(".unit-progress-card", { scale: 0.9, duration: 0.65, clearProps: "transform" }, "-=0.45")
         .from(".audio-card, .activity-card, .story-game-card, .reward-card", {
-          opacity: 0,
           y: 22,
           duration: 0.5,
           stagger: 0.055,
+          clearProps: "transform",
         }, "-=0.25");
     }
   }, { dependencies: [hydrated, view], scope: shellRef, revertOnUpdate: true });
