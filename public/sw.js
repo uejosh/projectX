@@ -1,5 +1,5 @@
-const CACHE = "jx-genesis-shell-v1";
-const SHELL = ["/", "/manifest.webmanifest", "/icon.svg"];
+const CACHE = "jx-genesis-shell-v2";
+const SHELL = ["/", "/manifest.webmanifest", "/icon.svg", "/images/genesis/galaxy-hero.jpg", "/images/genesis/formed-from-dust.svg", "/images/genesis/leaving-eden.svg", "/images/rewards/reward-badge.png", "/images/rewards/reward-coin.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));

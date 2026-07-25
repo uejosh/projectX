@@ -39,10 +39,10 @@ export function Celebration({ open, onClose }: Props) {
         <SparkleIcon size={18} className="celebration-spark spark-two" />
         <div className="gem-pedestal"><GemIcon size={72} /></div>
         <p className="eyebrow">Unit 1 complete</p>
-        <h2 id="celebration-title">You earned the Creation Gem</h2>
-        <p>You listened, remembered the verses, and put the story of Genesis 1–3 in order.</p>
-        <div className="reward-pill"><GemIcon size={18} /> 1 gem added to your collection</div>
-        <button className="primary-button" onClick={onClose} autoFocus>Claim my gem</button>
+        <h2 id="celebration-title">You earned the Creation Badge</h2>
+        <p>You listened, remembered, understood, and connected all ten Genesis 1–3 quests.</p>
+        <div className="reward-pill"><GemIcon size={18} /> 1 Creation Badge added to your collection</div>
+        <button className="primary-button" onClick={onClose} autoFocus>Claim my badge</button>
       </div>
     </div>
   );

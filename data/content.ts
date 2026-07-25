@@ -30,9 +30,53 @@ export type StorySequenceData = {
   cards: StoryCard[];
 };
 
+export const classificationCategories = [
+  "Promise",
+  "Instruction",
+  "Warning",
+  "Prayer",
+  "Description",
+] as const;
+
+export type ClassificationCategory = (typeof classificationCategories)[number];
+
+export type ClassificationRound = {
+  id: string;
+  reference: string;
+  passage: string;
+  answer: ClassificationCategory;
+  explanation: string;
+  allowedCategories: ClassificationCategory[];
+};
+
+export type PassageClassificationData = {
+  id: string;
+  title: string;
+  prompt: string;
+  rounds: ClassificationRound[];
+};
+
+export type PictureMatchPair = {
+  id: string;
+  reference: string;
+  passage: string;
+  imageSource: string;
+  sceneLabel: string;
+  alt: string;
+};
+
+export type PictureMatchData = {
+  id: string;
+  title: string;
+  prompt: string;
+  pairs: [PictureMatchPair, PictureMatchPair, PictureMatchPair];
+};
+
 export type QuestRef =
   | { type: "verse"; id: string }
-  | { type: "story"; id: string };
+  | { type: "story"; id: string }
+  | { type: "classification"; id: string }
+  | { type: "picture-match"; id: string };
 
 const AUDIO_ROOT = "https://ebible.org/eng-web/audio/01_Genesis";
 
@@ -77,6 +121,74 @@ export const storySequences: StorySequenceData[] = [
   }
 ];
 
+export const passageClassifications: PassageClassificationData[] = [
+  {
+    id: "promise-or-instruction",
+    title: "Promise or Instruction",
+    prompt: "What is this passage doing?",
+    rounds: [
+      {
+        id: "be-fruitful",
+        reference: "Genesis 1:28",
+        passage: "Be fruitful, multiply, fill the earth, and subdue it.",
+        answer: "Instruction",
+        explanation: "God is telling the first people what he wants them to do, so this passage functions as an instruction.",
+        allowedCategories: [...classificationCategories],
+      },
+      {
+        id: "tree-boundary",
+        reference: "Genesis 2:17",
+        passage: "But you shall not eat of the tree of the knowledge of good and evil; for in the day that you eat of it, you will surely die.",
+        answer: "Warning",
+        explanation: "The passage names a boundary and clearly describes the consequence of crossing it, making the warning central.",
+        allowedCategories: [...classificationCategories],
+      },
+      {
+        id: "serpent-defeated",
+        reference: "Genesis 3:15",
+        passage: "He will bruise your head, and you will bruise his heel.",
+        answer: "Promise",
+        explanation: "In the middle of judgment, God points forward to the serpent’s defeat. Christians have long read this as the Bible’s first promise of rescue.",
+        allowedCategories: [...classificationCategories],
+      },
+    ],
+  },
+];
+
+export const pictureMatches: PictureMatchData[] = [
+  {
+    id: "scripture-picture-match",
+    title: "Scripture Picture Match",
+    prompt: "Match each scene to its Genesis passage.",
+    pairs: [
+      {
+        id: "cosmos-created",
+        reference: "Genesis 1:1",
+        passage: "In the beginning, God created the heavens and the earth.",
+        imageSource: "/images/genesis/galaxy-hero.jpg",
+        sceneLabel: "The heavens and the earth",
+        alt: "A luminous galaxy surrounded by stars and planets.",
+      },
+      {
+        id: "formed-from-dust",
+        reference: "Genesis 2:7",
+        passage: "The LORD God formed man from the dust of the ground, and breathed into his nostrils the breath of life.",
+        imageSource: "/images/genesis/formed-from-dust.svg",
+        sceneLabel: "Formed from dust",
+        alt: "A modestly silhouetted human figure rising from warm earth as a stream of light approaches.",
+      },
+      {
+        id: "leaving-eden",
+        reference: "Genesis 3:23",
+        passage: "Therefore the LORD God sent him out from the garden of Eden, to till the ground from which he was taken.",
+        imageSource: "/images/genesis/leaving-eden.svg",
+        sceneLabel: "Leaving the garden",
+        alt: "Two small, fully clothed figures walking from a bright garden toward open land.",
+      },
+    ],
+  },
+];
+
 /** The canonical play order. Unit-page selection remains open and non-linear. */
 export const quests: QuestRef[] = [
   { type: "verse", id: "gen-1-1" },
@@ -87,7 +199,30 @@ export const quests: QuestRef[] = [
   { type: "verse", id: "gen-3-9" },
   { type: "story", id: "creation-days" },
   { type: "story", id: "garden-fall" },
+  { type: "classification", id: "promise-or-instruction" },
+  { type: "picture-match", id: "scripture-picture-match" },
 ];
+
+export const canonicalQuestIds = quests.map((quest) => quest.id);
+
+export function questsOfType<T extends QuestRef["type"]>(type: T) {
+  return quests.filter((quest): quest is Extract<QuestRef, { type: T }> => quest.type === type);
+}
+
+export function resolveQuest(quest: QuestRef) {
+  if (quest.type === "verse") return versePuzzles.find((item) => item.id === quest.id);
+  if (quest.type === "story") return storySequences.find((item) => item.id === quest.id);
+  if (quest.type === "classification") return passageClassifications.find((item) => item.id === quest.id);
+  return pictureMatches.find((item) => item.id === quest.id);
+}
+
+export function isClassificationAnswer(round: ClassificationRound, answer: ClassificationCategory) {
+  return round.answer === answer;
+}
+
+export function scorePictureMatches(quest: PictureMatchData, pairings: Record<string, string>) {
+  return quest.pairs.map((pair) => ({ id: pair.id, correct: pairings[pair.id] === pair.id }));
+}
 
 export function nextQuest(current: QuestRef): QuestRef | null {
   const index = quests.findIndex((quest) => quest.type === current.type && quest.id === current.id);

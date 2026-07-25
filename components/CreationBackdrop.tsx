@@ -1,4 +1,4 @@
-type Props = { variant: "verse" | "sequence" };
+type Props = { variant: "verse" | "sequence" | "classification" | "picture-match" };
 
 export function CreationBackdrop({ variant }: Props) {
   return (
@@ -14,6 +14,8 @@ export function CreationBackdrop({ variant }: Props) {
       <span className="creation-bird bird-one">⌁</span>
       <span className="creation-bird bird-two">⌁</span>
       <span className="creation-waves" />
+      <span className="creation-fish fish-one">◁</span>
+      <span className="creation-fish fish-two">◁</span>
     </div>
   );
 }

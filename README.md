@@ -9,10 +9,12 @@ A polished, installable proof of concept for one complete learning journey:
 - Three chapter-audio players for Genesis 1–3 with play/pause, seeking, and 1x/1.5x speed
 - Six verse-order quests
 - Two story-sequencing quests
+- One multi-round Promise or Instruction classification quest
+- One accessible three-pair Scripture Picture Match quest
 - Device-local progress persistence
-- One gold coin per completed quest, plus a Creation Gem after all eight quests
+- One coin per completed quest, plus a Creation Badge after all ten quests
 - Per-quest confetti/balloon celebrations, optional success sound, and a distinct unit celebration
-- Direct next-quest navigation and creation-themed game backgrounds
+- Direct next-quest navigation, contextual Genesis scene art, GSAP motion, and CanvasUI ripple interactions
 - A private feedback form that is available only after completion
 - Responsive desktop and mobile layouts, keyboard-operable quests, reduced-motion support, a web manifest, and an offline app shell
 
@@ -46,6 +48,13 @@ pnpm start
 - **Node API route** for feedback; POSTs append to `data/private-feedback.jsonl`
 - **No feedback read endpoint**; GET returns 405, and the local file is owner-readable only and excluded from Git
 - **Remote public-domain MP3s** for audio, keeping the prototype repository small
+- **Progress schema v3** with canonical quest IDs, idempotent coin awards, and lossless v1/v2 migration
+
+## Follow-up implementation status
+
+The implementable parts of the 18 July follow-up are present: ten canonical quests, registry-driven progress/rewards, legacy eight-quest badge retention, the two new game types, supplied galaxy/reward art, contextual scene illustrations, and responsive/reduced-motion styling. The new passages, explanations, and scene art are proof-of-concept editorial drafts and still require theological, rights, and content-owner approval.
+
+The existing public-domain narration remains intentionally unchanged until an approved translation, voice workflow, final recordings, and distribution rights are supplied. Physical-device and mixed pilot-group testing also remain stakeholder-led release steps.
 
 ## Deliberate POC boundaries
 

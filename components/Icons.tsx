@@ -22,8 +22,14 @@ export const PuzzleIcon = (props: IconProps) => <IconBase {...props}><path d="M8
 export const LayersIcon = (props: IconProps) => <IconBase {...props}><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></IconBase>;
 export const LockIcon = (props: IconProps) => <IconBase {...props}><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></IconBase>;
 export const CheckIcon = (props: IconProps) => <IconBase {...props}><path d="m5 12 4 4L19 6"/></IconBase>;
-export const GemIcon = (props: IconProps) => <IconBase {...props}><path d="m12 22 9-11-4-7H7l-4 7 9 11Z"/><path d="M3 11h18M7 4l5 18 5-18M8.5 11 12 4l3.5 7"/></IconBase>;
-export const CoinIcon = (props: IconProps) => <IconBase {...props}><circle cx="12" cy="12" r="9"/><path d="M14.8 8.8c-.6-.7-1.5-1.1-2.8-1.1-1.7 0-2.8.8-2.8 2 0 3.1 5.7 1.4 5.7 4.5 0 1.2-1.1 2.1-2.9 2.1-1.4 0-2.5-.5-3.1-1.3M12 6.2v11.6"/></IconBase>;
+type RewardIconProps = { size?: number; className?: string };
+
+function RewardImage({ size = 20, className = "", source }: RewardIconProps & { source: string }) {
+  return <span aria-hidden="true" className={`reward-art-icon ${className}`} style={{ width: size, height: size, backgroundImage: `url("${source}")` }} />;
+}
+
+export const GemIcon = (props: RewardIconProps) => <RewardImage {...props} source="/images/rewards/reward-badge.png" />;
+export const CoinIcon = (props: RewardIconProps) => <RewardImage {...props} source="/images/rewards/reward-coin.png" />;
 export const SparkleIcon = (props: IconProps) => <IconBase {...props}><path d="m12 3 1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></IconBase>;
 export const RotateIcon = (props: IconProps) => <IconBase {...props}><path d="M20 7v5h-5"/><path d="M19 12a8 8 0 1 1-2.3-5.7L20 9"/></IconBase>;
 export const UpIcon = (props: IconProps) => <IconBase {...props}><path d="m6 15 6-6 6 6"/></IconBase>;
