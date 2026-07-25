@@ -7,6 +7,7 @@ import { AudioLibrary } from "@/components/AudioLibrary";
 import { Celebration } from "@/components/Celebration";
 import { Ripple } from "@/components/canvasui/Ripple";
 import { FeedbackForm } from "@/components/FeedbackForm";
+import { FloatingCreationSvgs } from "@/components/FloatingCreationSvgs";
 import { QuestCelebration } from "@/components/QuestCelebration";
 import { PassageClassification } from "@/components/PassageClassification";
 import { ScripturePictureMatch } from "@/components/ScripturePictureMatch";
@@ -154,6 +155,7 @@ export function GenesisApp() {
         </main>
       ) : (
         <main className="unit-page">
+          <FloatingCreationSvgs variant="unit" />
           <button className="back-button" onClick={() => setView("path")}><BackIcon size={17}/> Genesis journey</button>
           <section className="unit-hero">
             <div className="unit-hero-copy"><p className="eyebrow light">Unit 1 · Genesis 1–3</p><h1>Creation<br />and the Fall</h1><p>Listen closely. Rebuild the words. Trace the story from a world without form to the gates of Eden.</p></div>

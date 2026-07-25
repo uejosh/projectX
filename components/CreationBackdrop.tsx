@@ -1,8 +1,11 @@
+import { FloatingCreationSvgs } from "@/components/FloatingCreationSvgs";
+
 type Props = { variant: "verse" | "sequence" | "classification" | "picture-match" };
 
 export function CreationBackdrop({ variant }: Props) {
   return (
     <div className={`creation-backdrop creation-${variant}`} aria-hidden="true">
+      <FloatingCreationSvgs variant={variant} />
       <span className="creation-sun" />
       <span className="creation-stars star-cluster-one">✦ · ✧</span>
       <span className="creation-stars star-cluster-two">· ✦</span>

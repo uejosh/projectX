@@ -222,3 +222,29 @@ input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 }
 
 .reference-card:disabled{opacity:1}
+
+
+/* Transparent galaxy copy and reusable floating creation SVGs */
+.hero-copy{background:transparent;border-color:transparent;backdrop-filter:none;box-shadow:none;text-shadow:0 3px 22px #020b12,0 1px 4px #020b12}
+.hero-copy>p:not(.eyebrow){text-shadow:0 2px 12px #020b12}
+.unit-page{position:relative;isolation:isolate}
+.unit-page>.floating-creation-svgs{z-index:0;inset:0 -90px}
+.unit-page>*:not(.floating-creation-svgs){position:relative;z-index:1}
+.floating-creation-svgs{position:absolute;inset:0;overflow:hidden;pointer-events:none;color:#377b6a}
+.floating-svg{position:absolute;width:64px;height:64px;overflow:visible;fill:currentColor;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.2;filter:drop-shadow(0 9px 16px #12392f1f);transform-origin:center;animation:floating-svg-drift 8s ease-in-out infinite}
+.floating-star{left:4%;top:8%;width:42px;color:#d5a637;animation-duration:6.8s}
+.floating-leaf{right:3%;top:20%;width:78px;fill:#5b9569;stroke:#315f45;animation-delay:-2s;animation-duration:9s}
+.floating-fish-svg{left:1%;top:46%;width:86px;color:#4f8e99;animation-delay:-4s;animation-duration:10.5s}
+.floating-planet{right:1%;top:57%;width:82px;fill:#8d6d9e;stroke:#665079;animation-delay:-1.5s;animation-duration:11s}
+.floating-bird-svg{left:7%;top:74%;width:70px;fill:#7c8e57;stroke:#53683a;animation-delay:-5s;animation-duration:8.6s}
+.floating-wave-svg{right:2%;top:84%;width:105px;fill:none;color:#4d8d9c;animation-delay:-3s;animation-duration:9.5s}
+.floating-sprout{right:10%;top:39%;width:58px;fill:#6c9b59;stroke:#436f39;animation-delay:-6s;animation-duration:10s}
+.creation-backdrop .floating-svg{opacity:.25}
+.floating-sequence .floating-star,.floating-classification .floating-star{color:#c7922c}
+.floating-picture-match .floating-planet{color:#417894}
+@keyframes floating-svg-drift{0%,100%{transform:translate3d(0,0,0) rotate(-4deg)}50%{transform:translate3d(14px,-18px,0) rotate(7deg)}}
+@media(max-width:720px){.unit-page>.floating-creation-svgs{inset:0 -20px}.floating-svg{width:50px;height:50px;opacity:.15}.floating-leaf,.floating-planet{right:-12px}.floating-fish-svg{left:-18px}.floating-sprout{display:none}}
+@media(prefers-reduced-motion:reduce){.floating-svg{animation:none!important}}
+
+.unit-page{overflow:clip}
+.unit-page>.floating-creation-svgs{inset:0}
