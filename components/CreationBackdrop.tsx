@@ -1,10 +1,14 @@
 import { FloatingCreationSvgs } from "@/components/FloatingCreationSvgs";
 
-type Props = { variant: "verse" | "sequence" | "classification" | "picture-match" };
+type Props = {
+  variant: "verse" | "sequence" | "classification" | "picture-match";
+  imageSource?: string;
+};
 
-export function CreationBackdrop({ variant }: Props) {
+export function CreationBackdrop({ variant, imageSource }: Props) {
   return (
     <div className={`creation-backdrop creation-${variant}`} aria-hidden="true">
+      {imageSource && <span className="creation-scene-image" style={{ backgroundImage: `url("${imageSource}")` }} />}
       <FloatingCreationSvgs variant={variant} />
       <span className="creation-sun" />
       <span className="creation-stars star-cluster-one">✦ · ✧</span>

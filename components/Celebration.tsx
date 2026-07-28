@@ -18,23 +18,25 @@ export function Celebration({ open, onClose }: Props) {
     gsap.timeline({ defaults: { ease: "back.out(1.5)" } })
       .from(".celebration-card", { opacity: 0, y: 45, scale: 0.72, rotationX: -12, duration: 0.65 })
       .from(".gem-pedestal", { opacity: 0, scale: 0, rotation: -120, duration: 0.75 }, "-=0.42")
-      .from(".celebration-card > .eyebrow, .celebration-card > h2, .celebration-card > p, .celebration-card > .reward-pill, .celebration-card > button", {
+      .from(".celebration-card > .eyebrow, .celebration-card > h2, .celebration-card > p, .celebration-card > .reward-pill", {
         opacity: 0,
         y: 16,
         duration: 0.4,
         stagger: 0.065,
         ease: "power2.out",
+        clearProps: "opacity,transform",
       }, "-=0.4")
       .from(".celebration-spark", { opacity: 0, scale: 0, rotation: -90, duration: 0.45, stagger: 0.12 }, "-=0.45");
   }, { dependencies: [open], scope: overlayRef, revertOnUpdate: true });
 
   if (!open) return null;
   return (
-    <div ref={overlayRef} className="celebration-overlay" role="dialog" aria-modal="true" aria-labelledby="celebration-title">
+    <div ref={overlayRef} className="celebration-overlay" role="dialog" aria-modal="true" aria-labelledby="celebration-title" onKeyDown={(event) => { if (event.key === "Escape") onClose(); }}>
       <div className="confetti" aria-hidden="true">
         {Array.from({ length: 24 }, (_, index) => <i key={index} style={{ "--i": index } as React.CSSProperties} />)}
       </div>
       <div className="celebration-card">
+        <button type="button" className="celebration-close" aria-label="Close reward popup" onClick={onClose}>×</button>
         <SparkleIcon size={24} className="celebration-spark spark-one" />
         <SparkleIcon size={18} className="celebration-spark spark-two" />
         <div className="gem-pedestal"><GemIcon size={72} /></div>

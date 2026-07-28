@@ -53,12 +53,13 @@ export function QuestCelebration({ open, questTitle, soundEnabled, onClose }: Pr
       .from(".quest-celebration-card", { opacity: 0, y: 38, scale: 0.76, duration: 0.58 })
       .from(".coin-pedestal", { opacity: 0, scale: 0, rotationY: -180, duration: 0.7 }, "-=0.38")
       .from(".balloon", { opacity: 0, y: 100, scale: 0.5, duration: 0.7, stagger: 0.1 }, "-=0.62")
-      .from(".quest-celebration-card > .eyebrow, .quest-celebration-card > h2, .quest-celebration-card > p, .quest-celebration-card > .reward-pill, .quest-celebration-card > button", {
+      .from(".quest-celebration-card > .eyebrow, .quest-celebration-card > h2, .quest-celebration-card > p, .quest-celebration-card > .reward-pill", {
         opacity: 0,
         y: 14,
         duration: 0.35,
         stagger: 0.055,
         ease: "power2.out",
+        clearProps: "opacity,transform",
       }, "-=0.42");
   }, { dependencies: [open], scope: overlayRef, revertOnUpdate: true });
 
@@ -70,6 +71,7 @@ export function QuestCelebration({ open, questTitle, soundEnabled, onClose }: Pr
         <span className="balloon balloon-one" /><span className="balloon balloon-two" /><span className="balloon balloon-three" />
       </div>
       <div className="celebration-card quest-celebration-card">
+        <button type="button" className="celebration-close" aria-label="Close reward popup" onClick={onClose}>×</button>
         <SparkleIcon size={22} className="celebration-spark spark-one" />
         <SparkleIcon size={18} className="celebration-spark spark-two" />
         <div className="coin-pedestal"><CoinIcon size={66} /></div>

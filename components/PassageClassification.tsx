@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { Ripple } from "@/components/canvasui/Ripple";
 import { CheckIcon, LayersIcon } from "@/components/Icons";
 import { CreationBackdrop } from "@/components/CreationBackdrop";
-import { isClassificationAnswer, type ClassificationCategory, type PassageClassificationData } from "@/data/content";
+import { classificationOptions, isClassificationAnswer, type ClassificationCategory, type PassageClassificationData } from "@/data/content";
 
 type Props = {
   quest: PassageClassificationData;
@@ -37,7 +37,7 @@ export function PassageClassification({ quest, completed, onComplete, onBackToUn
       duration: 0.5,
       stagger: 0.055,
       ease: "power3.out",
-      clearProps: "transform",
+      clearProps: "opacity,transform",
     });
   }, { dependencies: [roundIndex], scope: scopeRef, revertOnUpdate: true });
 
@@ -66,7 +66,7 @@ export function PassageClassification({ quest, completed, onComplete, onBackToUn
 
   return (
     <div className="activity-shell classification-theme" ref={scopeRef}>
-      <CreationBackdrop variant="classification" />
+      <CreationBackdrop variant="classification" imageSource="/images/genesis/eden-trees-close.webp" />
       <header className="activity-header">
         <button className="text-button" onClick={onBackToUnit}>← Back to unit</button>
         <span className="activity-kind"><LayersIcon size={16} /> Passage meaning</span>
@@ -87,7 +87,7 @@ export function PassageClassification({ quest, completed, onComplete, onBackToUn
         </Ripple>
 
         <div className="classification-options" aria-label="Passage categories">
-          {round.allowedCategories.map((category) => {
+          {classificationOptions(round).map((category) => {
             const chosen = selected === category;
             const correct = status === "right" && category === round.answer;
             return (

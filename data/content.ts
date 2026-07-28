@@ -27,6 +27,9 @@ export type StorySequenceData = {
   title: string;
   reference: string;
   prompt: string;
+  previewImage: string;
+  backdropImage: string;
+  imageAlt: string;
   cards: StoryCard[];
 };
 
@@ -98,6 +101,9 @@ export const versePuzzles: VersePuzzleData[] = [
 export const storySequences: StorySequenceData[] = [
   {
     id: "creation-days", title: "Creation unfolds", reference: "Genesis 1:3-31; 2:1-3", prompt: "Arrange these scenes from the first light to the day of rest.",
+    previewImage: "/images/genesis/creation-fish-school.webp",
+    backdropImage: "/images/genesis/creation-fish-close.webp",
+    imageAlt: "A school of fish moving through bright blue water.",
     cards: [
       { id: "light", eyebrow: "First", title: "Light appears", description: "God calls light into the darkness.", symbol: "✦", tone: "light" },
       { id: "sky", eyebrow: "Then", title: "Sky and waters", description: "The expanse divides the waters.", symbol: "≈", tone: "sky" },
@@ -110,6 +116,9 @@ export const storySequences: StorySequenceData[] = [
   },
   {
     id: "garden-fall", title: "From garden to exile", reference: "Genesis 2:7-25; 3:1-24", prompt: "Place the key moments of Eden and the fall in sequence.",
+    previewImage: "/images/genesis/fall-choice.webp",
+    backdropImage: "/images/genesis/eden-trees-close.webp",
+    imageAlt: "Adam and Eve standing near the tree in the garden.",
     cards: [
       { id: "formed", eyebrow: "First", title: "Adam is formed", description: "God forms the man from dust and breathes life into him.", symbol: "◌", tone: "people" },
       { id: "eden", eyebrow: "Then", title: "Eden is planted", description: "God places the man in the garden to cultivate and keep it.", symbol: "⌁", tone: "garden" },
@@ -165,25 +174,25 @@ export const pictureMatches: PictureMatchData[] = [
         id: "cosmos-created",
         reference: "Genesis 1:1",
         passage: "In the beginning, God created the heavens and the earth.",
-        imageSource: "/images/genesis/galaxy-hero.jpg",
+        imageSource: "/images/genesis/creation-stars.webp",
         sceneLabel: "The heavens and the earth",
-        alt: "A luminous galaxy surrounded by stars and planets.",
+        alt: "A dark sky filled with bright stars and a luminous band of light.",
       },
       {
         id: "formed-from-dust",
         reference: "Genesis 2:7",
         passage: "The LORD God formed man from the dust of the ground, and breathed into his nostrils the breath of life.",
-        imageSource: "/images/genesis/formed-from-dust.svg",
+        imageSource: "/images/genesis/adam-formed.webp",
         sceneLabel: "Formed from dust",
-        alt: "A modestly silhouetted human figure rising from warm earth as a stream of light approaches.",
+        alt: "A man lying on the earth as a bright breath-like light approaches.",
       },
       {
-        id: "leaving-eden",
-        reference: "Genesis 3:23",
-        passage: "Therefore the LORD God sent him out from the garden of Eden, to till the ground from which he was taken.",
-        imageSource: "/images/genesis/leaving-eden.svg",
-        sceneLabel: "Leaving the garden",
-        alt: "Two small, fully clothed figures walking from a bright garden toward open land.",
+        id: "fruit-choice",
+        reference: "Genesis 3:6",
+        passage: "When the woman saw that the tree was good for food, and that it was a delight to the eyes, and that the tree was to be desired to make one wise, she took some of its fruit, and ate. Then she gave some to her husband with her, and he ate it, too.",
+        imageSource: "/images/genesis/fall-choice.webp",
+        sceneLabel: "The choice in the garden",
+        alt: "Adam and Eve beside a fruit tree while a serpent coils around its trunk.",
       },
     ],
   },
@@ -220,6 +229,10 @@ export function isClassificationAnswer(round: ClassificationRound, answer: Class
   return round.answer === answer;
 }
 
+export function classificationOptions(round: ClassificationRound) {
+  return [...new Set([...round.allowedCategories, round.answer])];
+}
+
 export function scorePictureMatches(quest: PictureMatchData, pairings: Record<string, string>) {
   return quest.pairs.map((pair) => ({ id: pair.id, correct: pairings[pair.id] === pair.id }));
 }
@@ -230,9 +243,9 @@ export function nextQuest(current: QuestRef): QuestRef | null {
 }
 
 export const upcomingUnits = [
-  { number: 2, title: "Cain, Abel & Noah", chapters: "Genesis 4-9" },
-  { number: 3, title: "Nations & Babel", chapters: "Genesis 10-11" },
-  { number: 4, title: "Abraham's journey", chapters: "Genesis 12-25" },
-  { number: 5, title: "Isaac & Jacob", chapters: "Genesis 26-36" },
-  { number: 6, title: "Joseph's story", chapters: "Genesis 37-50" }
+  { number: 2, title: "Cain, Abel & Noah", chapters: "Genesis 4-9", imageSource: null },
+  { number: 3, title: "Nations & Babel", chapters: "Genesis 10-11", imageSource: "/images/genesis/tower-of-babel.webp" },
+  { number: 4, title: "Abraham's journey", chapters: "Genesis 12-25", imageSource: null },
+  { number: 5, title: "Isaac & Jacob", chapters: "Genesis 26-36", imageSource: null },
+  { number: 6, title: "Joseph's story", chapters: "Genesis 37-50", imageSource: null }
 ];

@@ -29,6 +29,7 @@ export function ScripturePictureMatch({ quest, completed, onComplete, onBackToUn
   const scopeRef = useRef<HTMLDivElement>(null);
   const [wasCompleted] = useState(completed);
   const [selectedPicture, setSelectedPicture] = useState<string | null>(null);
+  const [selectedReference, setSelectedReference] = useState<string | null>(null);
   const [pairings, setPairings] = useState<Pairings>(completed ? solvedPairs(quest) : {});
   const [checks, setChecks] = useState<CheckState>(completed ? Object.fromEntries(quest.pairs.map((pair) => [pair.id, "right"])) : {});
   const [complete, setComplete] = useState(completed);
@@ -43,7 +44,7 @@ export function ScripturePictureMatch({ quest, completed, onComplete, onBackToUn
       duration: 0.55,
       stagger: 0.07,
       ease: "power3.out",
-      clearProps: "transform",
+      clearProps: "opacity,transform",
     });
   }, { scope: scopeRef });
 
@@ -52,20 +53,35 @@ export function ScripturePictureMatch({ quest, completed, onComplete, onBackToUn
     gsap.fromTo(".picture-card.needs-work", { x: -6 }, { x: 6, duration: 0.08, repeat: 5, yoyo: true, clearProps: "transform" });
   }, { dependencies: [checks], scope: scopeRef });
 
+  function assignPair(pictureId: string, referenceId: string) {
+    setPairings((current) => {
+      const next = Object.fromEntries(Object.entries(current).filter(([, value]) => value !== referenceId));
+      next[pictureId] = referenceId;
+      return next;
+    });
+    setChecks({});
+  }
+
   function choosePicture(id: string) {
     if (complete) return;
+    if (selectedReference) {
+      assignPair(id, selectedReference);
+      setSelectedPicture(null);
+      setSelectedReference(null);
+      return;
+    }
     setSelectedPicture(id === selectedPicture ? null : id);
   }
 
   function chooseReference(referenceId: string) {
-    if (!selectedPicture || complete) return;
-    setPairings((current) => {
-      const next = Object.fromEntries(Object.entries(current).filter(([, value]) => value !== referenceId));
-      next[selectedPicture] = referenceId;
-      return next;
-    });
-    setChecks({});
-    setSelectedPicture(null);
+    if (complete) return;
+    if (selectedPicture) {
+      assignPair(selectedPicture, referenceId);
+      setSelectedPicture(null);
+      setSelectedReference(null);
+      return;
+    }
+    setSelectedReference(referenceId === selectedReference ? null : referenceId);
   }
 
   function checkMatches() {
@@ -83,7 +99,7 @@ export function ScripturePictureMatch({ quest, completed, onComplete, onBackToUn
 
   return (
     <div className="activity-shell picture-match-theme" ref={scopeRef}>
-      <CreationBackdrop variant="picture-match" />
+      <CreationBackdrop variant="picture-match" imageSource="/images/genesis/creation-stars.webp" />
       <header className="activity-header">
         <button className="text-button" onClick={onBackToUnit}>← Back to unit</button>
         <span className="activity-kind"><PuzzleIcon size={16} /> Picture match</span>
@@ -93,7 +109,7 @@ export function ScripturePictureMatch({ quest, completed, onComplete, onBackToUn
         <div className="activity-intro">
           <p className="eyebrow">Three scenes · three passages</p>
           <h1>{quest.prompt}</h1>
-          <p>Select a picture, then choose its matching passage. You can change a pair before checking.</p>
+          <p>Select a picture or a passage first, then choose its match. You can change any pair before checking.</p>
         </div>
 
         <section className="picture-match-board" aria-label="Picture cards">
@@ -112,7 +128,7 @@ export function ScripturePictureMatch({ quest, completed, onComplete, onBackToUn
                 <Ripple className="picture-ripple" amplitude={0.18} speed={0.48} wavelength={70} rings={2} decay={1.45} refraction={28} dispersion={0.2} shine={0.42} trigger="hover" interval={6 + index}>
                   <span className="picture-frame"><Image src={pair.imageSource} alt={pair.alt} width={900} height={600} sizes="(max-width: 720px) 92vw, 30vw" /></span>
                 </Ripple>
-                <span className="picture-card-copy"><small>Scene {index + 1}</small><strong>{pair.sceneLabel}</strong><span>{pairedReference ? pairedReference.reference : selected ? "Now choose a passage" : "Select this picture"}</span></span>
+                <span className="picture-card-copy"><small>Scene {index + 1}</small><strong>{pair.sceneLabel}</strong><span>{pairedReference ? pairedReference.reference : selected ? "Now choose a passage" : selectedReference ? "Pair with selected passage" : "Select this picture"}</span></span>
                 {check === "right" && <span className="match-check"><CheckIcon size={19} /> Matched</span>}
               </button>
             );
@@ -124,9 +140,10 @@ export function ScripturePictureMatch({ quest, completed, onComplete, onBackToUn
           {references.map((pair) => {
             const assignedPicture = Object.entries(pairings).find(([, referenceId]) => referenceId === pair.id)?.[0];
             const assignedScene = quest.pairs.findIndex((item) => item.id === assignedPicture) + 1;
+            const selected = selectedReference === pair.id;
             return (
-              <button key={pair.id} className={`reference-card ${assignedPicture ? "assigned" : ""}`} onClick={() => chooseReference(pair.id)} disabled={!selectedPicture || complete}>
-                <span><strong>{pair.reference}</strong><small>{assignedPicture ? `Paired with scene ${assignedScene}` : selectedPicture ? "Choose this passage" : "Select a picture first"}</small></span>
+              <button key={pair.id} className={`reference-card ${assignedPicture ? "assigned" : ""} ${selected ? "selected" : ""}`} onClick={() => chooseReference(pair.id)} disabled={complete} aria-pressed={selected}>
+                <span><strong>{pair.reference}</strong><small>{assignedPicture ? `Paired with scene ${assignedScene}` : selected ? "Selected—choose a scene" : selectedPicture ? "Choose this passage" : "Select this passage"}</small></span>
                 <p>“{pair.passage}”</p>
               </button>
             );

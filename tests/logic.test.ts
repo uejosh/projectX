@@ -1,12 +1,16 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  classificationOptions,
   isClassificationAnswer,
   nextQuest,
   passageClassifications,
   pictureMatches,
   quests,
+  resolveQuest,
   scorePictureMatches,
+  storySequences,
+  versePuzzles,
 } from "../data/content";
 import {
   awardQuestCompletion,
@@ -103,10 +107,16 @@ test("all ten quests award exactly ten coins and one badge", () => {
   assert.equal(badgeAwards, 1);
 });
 
-test("classification answers are data-driven", () => {
-  const round = passageClassifications[0].rounds[0];
-  assert.equal(isClassificationAnswer(round, round.answer), true);
-  assert.equal(isClassificationAnswer(round, "Prayer"), false);
+test("every classification round exposes its data-driven answer exactly once", () => {
+  for (const quest of passageClassifications) {
+    for (const round of quest.rounds) {
+      const options = classificationOptions(round);
+      assert.equal(isClassificationAnswer(round, round.answer), true);
+      assert.equal(options.includes(round.answer), true);
+      assert.equal(options.filter((option) => option === round.answer).length, 1);
+      assert.equal(new Set(options).size, options.length);
+    }
+  }
 });
 
 test("picture-pair scoring is independent of selection order", () => {
@@ -125,4 +135,16 @@ test("quest navigation follows all ten configured quests and terminates", () => 
   }
   assert.equal(nextQuest(quests.at(-1)!), null);
   assert.equal(nextQuest({ type: "verse", id: "missing" }), null);
+});
+
+test("all configured quests resolve to playable content with complete option sets", () => {
+  assert.equal(versePuzzles.every((puzzle) => puzzle.pieces.length >= 3 && new Set(puzzle.pieces).size === puzzle.pieces.length), true);
+  assert.equal(storySequences.every((story) => story.cards.length >= 3 && new Set(story.cards.map((card) => card.id)).size === story.cards.length), true);
+  assert.equal(quests.every((quest) => Boolean(resolveQuest(quest))), true);
+
+  for (const quest of pictureMatches) {
+    assert.equal(quest.pairs.length, 3);
+    assert.equal(new Set(quest.pairs.map((pair) => pair.reference)).size, quest.pairs.length);
+    assert.equal(new Set(quest.pairs.map((pair) => pair.imageSource)).size, quest.pairs.length);
+  }
 });

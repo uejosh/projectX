@@ -28,7 +28,7 @@ function RewardImage({ size = 20, className = "", source }: RewardIconProps & { 
   return <span aria-hidden="true" className={`reward-art-icon ${className}`} style={{ width: size, height: size, backgroundImage: `url("${source}")` }} />;
 }
 
-export const GemIcon = (props: RewardIconProps) => <RewardImage {...props} source="/images/rewards/reward-badge.png" />;
+export const GemIcon = (props: RewardIconProps) => <RewardImage {...props} source="/images/rewards/blue-gem.png" />;
 export const CoinIcon = (props: RewardIconProps) => <RewardImage {...props} source="/images/rewards/reward-coin.png" />;
 export const SparkleIcon = (props: IconProps) => <IconBase {...props}><path d="m12 3 1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3Z"/><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/></IconBase>;
 export const RotateIcon = (props: IconProps) => <IconBase {...props}><path d="M20 7v5h-5"/><path d="M19 12a8 8 0 1 1-2.3-5.7L20 9"/></IconBase>;

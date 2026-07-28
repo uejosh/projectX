@@ -52,7 +52,7 @@ export function StorySequence({ story, completed, onComplete, onBackToUnit, onCo
 
   return (
     <div className="activity-shell sequence-theme">
-      <CreationBackdrop variant="sequence" />
+      <CreationBackdrop variant="sequence" imageSource={story.backdropImage} />
       <header className="activity-header">
         <button className="text-button" onClick={onBackToUnit}>← Back to unit</button>
         <span className="activity-kind"><LayersIcon size={16} /> Story sequence</span>
