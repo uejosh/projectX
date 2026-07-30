@@ -1,0 +1,66 @@
+/* Fourteen SVG symbols share keyed motion but retain per-symbol positioning. */
+.floating-creation-svgs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #377b6a;
+  pointer-events: none;
+}
+
+.floating-svg {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  overflow: visible;
+  color: currentColor;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .44;
+  filter: drop-shadow(0 12px 20px #12392f42);
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: floating-svg-drift 4.6s ease-in-out infinite;
+}
+
+.floating-star { top: 8%; left: 4%; width: 58px; color: #d5a637; animation-duration: 3.6s; }
+.floating-leaf { top: 20%; right: 3%; width: 96px; fill: #5b9569; stroke: #315f45; animation-delay: -2s; animation-duration: 4.4s; }
+.floating-fish-svg { top: 46%; left: 1%; width: 108px; color: #4f8e99; animation-delay: -4s; animation-duration: 5.1s; }
+.floating-planet { top: 57%; right: 1%; width: 98px; fill: #8d6d9e; stroke: #665079; animation-delay: -1.5s; animation-duration: 5.6s; }
+.floating-bird-svg { top: 74%; left: 7%; width: 92px; fill: #7c8e57; stroke: #53683a; animation-delay: -5s; animation-duration: 4.1s; }
+.floating-wave-svg { top: 84%; right: 2%; width: 130px; color: #4d8d9c; fill: none; animation-delay: -3s; animation-duration: 4.8s; }
+.floating-sprout { top: 39%; right: 10%; width: 78px; fill: #6c9b59; stroke: #436f39; animation-delay: -6s; animation-duration: 5.3s; }
+.floating-alt { animation-name: floating-svg-sweep; animation-direction: alternate-reverse; }
+.floating-alt.floating-star { top: 3%; right: auto; left: 72%; width: 48px; animation-delay: -1.2s; }
+.floating-alt.floating-leaf { top: 27%; right: auto; left: 29%; width: 82px; animation-delay: -3.1s; }
+.floating-alt.floating-fish-svg { top: 41%; right: 14%; left: auto; width: 116px; animation-delay: -2.4s; }
+.floating-alt.floating-planet { top: 58%; right: auto; left: 32%; width: 88px; animation-delay: -4.2s; }
+.floating-alt.floating-bird-svg { top: 70%; right: 24%; left: auto; width: 98px; animation-delay: -.8s; }
+.floating-alt.floating-wave-svg { top: 87%; right: auto; left: 22%; width: 142px; animation-delay: -2.9s; }
+.floating-alt.floating-sprout { top: 15%; right: 38%; left: auto; width: 72px; animation-delay: -4.7s; }
+.creation-backdrop .floating-svg { opacity: .52; }
+.floating-sequence .floating-star,
+.floating-classification .floating-star { color: #c7922c; }
+.floating-picture-match .floating-planet { color: #417894; }
+
+@keyframes floating-svg-drift {
+  0%, 100% { transform: translate3d(-10px, 12px, 0) rotate(-10deg) scale(.92); opacity: .3; }
+  50% { transform: translate3d(52px, -46px, 0) rotate(16deg) scale(1.16); opacity: .62; }
+}
+
+@keyframes floating-svg-sweep {
+  0%, 100% { transform: translate3d(18px, -22px, 0) rotate(13deg) scale(1.12); opacity: .58; }
+  50% { transform: translate3d(-58px, 42px, 0) rotate(-18deg) scale(.86); opacity: .32; }
+}
+
+@media (max-width: 720px) {
+  .floating-svg { width: 56px; height: 56px; opacity: .36; }
+  .floating-leaf,
+  .floating-planet { right: 0; }
+  .floating-fish-svg { left: -8px; }
+  .floating-alt.floating-fish-svg { right: 3%; }
+  .floating-alt.floating-wave-svg { left: 8%; }
+  .creation-backdrop .floating-svg { opacity: .43; }
+}

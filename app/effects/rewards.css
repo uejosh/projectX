@@ -1,0 +1,151 @@
+/* Dynamic image-backed icons and effects driven by per-element CSS variables. */
+.reward-art-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 3px #0003);
+}
+
+.confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.confetti i {
+  position: absolute;
+  top: -20px;
+  left: calc((var(--i) * 41) % 100 * 1%);
+  width: 6px;
+  height: 13px;
+  background: hsl(calc(var(--i) * 31), 70%, 65%);
+  animation: confetti-fall calc(2.8s + var(--i) * .04s) linear infinite;
+  animation-delay: calc(var(--i) * -.13s);
+  transform: rotate(calc(var(--i) * 21deg));
+}
+
+.gem-pedestal,
+.coin-pedestal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin-inline: auto;
+  border-radius: 50%;
+}
+
+.gem-pedestal {
+  width: 155px;
+  height: 155px;
+  margin-bottom: 27px;
+  color: #ffe293;
+  background: radial-gradient(circle, #e5bd5742 0, #294f454f 50%, transparent 72%);
+  filter: drop-shadow(0 0 22px #f4c54a59);
+  animation: gem-float 2.6s ease-in-out infinite;
+}
+
+.coin-pedestal {
+  width: 145px;
+  height: 145px;
+  margin-bottom: 24px;
+  color: #ffe083;
+  background: radial-gradient(circle, #fff0af45, #34574a52 48%, transparent 70%);
+  filter: drop-shadow(0 0 24px #ffc93f80);
+  animation: coin-pop 1.8s ease-in-out infinite;
+}
+
+.gem-pedestal::after,
+.coin-pedestal::after {
+  position: absolute;
+  width: 90px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff6c92b;
+  content: "";
+  filter: blur(8px);
+  transform: translateY(61px);
+  animation: reward-shine 2.4s ease-in-out infinite;
+}
+
+.gem-pedestal .reward-art-icon,
+.coin-pedestal .reward-art-icon {
+  filter: drop-shadow(0 10px 14px #0006);
+}
+
+.coin-pedestal .reward-art-icon {
+  animation: coin-turn 3.8s ease-in-out infinite;
+}
+
+.gem-pedestal .reward-art-icon {
+  animation: badge-float 2.7s ease-in-out infinite;
+}
+
+.balloon {
+  position: absolute;
+  bottom: -80px;
+  width: 46px;
+  height: 58px;
+  border-radius: 50% 50% 45% 45%;
+  animation: balloon-rise 4.8s ease-in infinite;
+}
+
+.balloon::after {
+  position: absolute;
+  top: 56px;
+  left: 50%;
+  width: 1px;
+  height: 70px;
+  background: #ffffff80;
+  content: "";
+}
+
+@keyframes confetti-fall {
+  to { top: 105%; transform: rotate(720deg); }
+}
+
+@keyframes gem-float {
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes coin-pop {
+  50% { transform: translateY(-7px) rotate(3deg); }
+}
+
+@keyframes balloon-rise {
+  to { bottom: 115%; transform: translateX(30px) rotate(8deg); }
+}
+
+@keyframes reward-shine {
+  50% { opacity: .35; transform: translateY(61px) scaleX(1.25); }
+}
+
+@keyframes coin-turn {
+  0%, 100% { transform: translateY(0) rotateY(0); }
+  50% { transform: translateY(-7px) rotateY(18deg); }
+}
+
+@keyframes badge-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-9px) rotate(2deg); }
+}
+
+@media (max-width: 560px) {
+  .gem-pedestal { width: 135px; height: 135px; }
+  .coin-pedestal { width: 128px; height: 128px; }
+}
+
+@media (max-width: 560px), (max-height: 700px) {
+  .gem-pedestal,
+  .coin-pedestal {
+    width: 92px;
+    height: 92px;
+    margin-bottom: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .balloon { display: none; }
+  .confetti i { top: 16%; transform: rotate(25deg); }
+}

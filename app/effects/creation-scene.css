@@ -1,0 +1,202 @@
+/* Authored activity scenery composed from generated shapes and layered artwork. */
+.creation-backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 70px 0 0;
+  overflow: hidden;
+  color: #174b42;
+  pointer-events: none;
+}
+
+.creation-scene-image {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  opacity: .18;
+  filter: saturate(.9) contrast(1.03);
+  mask-image: linear-gradient(90deg, transparent 0, #000 20%, #000 80%, transparent 100%);
+}
+
+.creation-sequence .creation-scene-image { opacity: .26; }
+.creation-classification .creation-scene-image { opacity: .16; }
+.creation-picture-match .creation-scene-image { opacity: .2; }
+
+.creation-sun {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe59a 0 36%, #f3c95f66 37% 55%, transparent 56%);
+  filter: drop-shadow(0 0 30px #e7b74266);
+  animation: sun-breathe 6s ease-in-out infinite;
+}
+
+.creation-stars {
+  position: absolute;
+  color: #d2a63d;
+  font-size: 22px;
+  letter-spacing: 16px;
+  opacity: .55;
+  animation: star-drift 9s ease-in-out infinite;
+}
+
+.star-cluster-one { top: 8%; left: 5%; }
+.star-cluster-two { top: 30%; right: 18%; animation-delay: -3s; }
+
+.creation-cloud {
+  position: absolute;
+  width: 130px;
+  height: 36px;
+  border-radius: 999px;
+  background: #ffffff82;
+  filter: blur(.2px);
+  animation: cloud-drift 16s ease-in-out infinite;
+}
+
+.creation-cloud::before,
+.creation-cloud::after {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  background: inherit;
+  content: "";
+}
+
+.creation-cloud::before { left: 21px; width: 55px; height: 55px; }
+.creation-cloud::after { right: 18px; width: 72px; height: 72px; }
+.cloud-one { top: 23%; left: 6%; }
+.cloud-two { top: 42%; right: 10%; transform: scale(.7); animation-delay: -7s; }
+
+.creation-hills {
+  position: absolute;
+  right: -8%;
+  bottom: 40px;
+  left: -8%;
+  height: 230px;
+  background:
+    radial-gradient(ellipse at 20% 100%, #90b684 0 34%, transparent 35%),
+    radial-gradient(ellipse at 50% 100%, #709d70 0 38%, transparent 39%),
+    radial-gradient(ellipse at 82% 100%, #9abc7e 0 35%, transparent 36%);
+  opacity: .48;
+}
+
+.creation-waves {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 82px;
+  background: repeating-radial-gradient(ellipse at 50% 0, #74aeb5 0 10px, #9cc7c4 11px 18px, transparent 19px 29px);
+  background-size: 88px 42px;
+  opacity: .5;
+  animation: water-shift 12s linear infinite;
+}
+
+.creation-tree {
+  position: absolute;
+  bottom: 65px;
+  width: 115px;
+  height: 225px;
+  transform-origin: bottom center;
+  animation: tree-sway 7s ease-in-out infinite;
+}
+
+.creation-tree i {
+  position: absolute;
+  bottom: 0;
+  left: 49px;
+  width: 18px;
+  height: 128px;
+  border-radius: 12px 12px 0 0;
+  background: #71523b;
+  transform: rotate(2deg);
+}
+
+.creation-tree b,
+.creation-tree b::before,
+.creation-tree b::after {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: #477d55;
+}
+
+.creation-tree b { top: 7px; left: 10px; width: 95px; height: 105px; }
+.creation-tree b::before,
+.creation-tree b::after { top: 28px; width: 77px; height: 82px; content: ""; }
+.creation-tree b::before { left: -25px; background: #5a9361; }
+.creation-tree b::after { right: -25px; background: #3e704e; }
+.tree-one { left: 1%; }
+.tree-two { right: 2%; transform: scale(.76); animation-delay: -3s; }
+
+.creation-bird {
+  position: absolute;
+  color: #315c54;
+  font: 700 30px/1 var(--font-display);
+  opacity: .55;
+  animation: bird-float 10s ease-in-out infinite;
+}
+
+.bird-one { top: 33%; left: 15%; }
+.bird-two { top: 18%; right: 24%; animation-delay: -4s; }
+.creation-sequence .creation-sun { top: 2%; right: 8%; width: 175px; height: 175px; }
+.creation-sequence .creation-hills { opacity: .62; }
+.creation-verse .creation-tree { opacity: .72; }
+
+.creation-fish {
+  position: absolute;
+  bottom: 30px;
+  color: #245f68;
+  font: 700 28px var(--font-display);
+  opacity: .5;
+  animation: fish-swim 11s linear infinite;
+}
+
+.fish-one { left: 22%; }
+.fish-two { left: 65%; animation-delay: -5s; }
+
+@keyframes sun-breathe {
+  50% { transform: scale(1.06); filter: drop-shadow(0 0 45px #e7b74288); }
+}
+
+@keyframes star-drift {
+  50% { transform: translate(12px, -8px); opacity: .8; }
+}
+
+@keyframes cloud-drift {
+  50% { transform: translateX(35px); }
+}
+
+@keyframes water-shift {
+  to { background-position: 88px 0; }
+}
+
+@keyframes tree-sway {
+  50% { transform: rotate(1.5deg); }
+}
+
+@keyframes bird-float {
+  50% { transform: translate(35px, -13px); }
+}
+
+@keyframes fish-swim {
+  from { transform: translateX(-120px); }
+  to { transform: translateX(calc(100vw + 120px)); }
+}
+
+@media (max-width: 800px) {
+  .creation-tree { opacity: .45; }
+  .tree-one { left: -45px; }
+  .tree-two { right: -45px; }
+  .creation-sun { top: 6%; right: -35px; width: 125px; height: 125px; }
+}
+
+@media (max-width: 560px) {
+  .creation-backdrop { opacity: .72; }
+  .creation-tree { opacity: .32; }
+  .creation-hills { height: 170px; }
+  .creation-stars { display: none; }
+}

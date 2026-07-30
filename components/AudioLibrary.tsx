@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { audioChapters } from "@/data/content";
 import { CheckIcon, HeadphonesIcon, PauseIcon, PlayIcon } from "@/components/Icons";
+import { cx, eyebrow, focusRing, sectionHeadingRow, sectionIcon, sectionTitle, sectionWrap } from "@/lib/styles";
 
 type Props = {
   started: number[];
@@ -64,15 +65,15 @@ export function AudioLibrary({ started, onStarted }: Props) {
   }
 
   return (
-    <section className="content-section audio-section" aria-labelledby="listen-heading">
-      <div className="section-heading-row">
-        <div className="section-icon"><HeadphonesIcon size={22} /></div>
+    <section className={sectionWrap} aria-labelledby="listen-heading">
+      <div className={sectionHeadingRow}>
+        <div className={sectionIcon}><HeadphonesIcon size={22} /></div>
         <div>
-          <p className="eyebrow">Listen first or return when you need a hint</p>
-          <h2 id="listen-heading">Genesis 1-3 audio</h2>
+          <p className={cx("eyebrow", eyebrow, "mb-[3px]")}>Listen first or return when you need a hint</p>
+          <h2 className={sectionTitle} id="listen-heading">Genesis 1-3 audio</h2>
         </div>
       </div>
-      <div className="audio-grid">
+      <div className="grid grid-cols-3 items-start gap-3.5 max-[800px]:grid-cols-1">
         {audioChapters.map((item) => {
           const hasStarted = started.includes(item.chapter);
           const isActive = active === item.chapter;
@@ -80,26 +81,27 @@ export function AudioLibrary({ started, onStarted }: Props) {
           const duration = durations[item.chapter] ?? 0;
           const currentTime = currentTimes[item.chapter] ?? 0;
           return (
-            <article className={`audio-card ${isActive ? "is-active" : ""}`} key={item.chapter}>
-              <div className="audio-card-heading">
-                <div className="audio-number">0{item.chapter}</div>
-                <div className="audio-copy">
-                  <div className="audio-meta">
+            <article className={cx("audio-card min-w-0 rounded-[19px] border border-line bg-paper p-5 transition-all duration-200 max-[560px]:p-4", isActive && "border-[#7fa497] shadow-[0_10px_30px_#14463a1a]")} key={item.chapter}>
+              <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-[13px]">
+                <div className="font-display text-[27px] font-medium text-[#a68435]">0{item.chapter}</div>
+                <div>
+                  <div className="flex justify-between text-[9px] uppercase tracking-[0.07em] text-[#75837e]">
                     <span>Genesis {item.chapter}</span>
                     <span>{duration ? formatTime(duration) : item.duration}</span>
                   </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.subtitle}</p>
+                  <h3 className="mb-[3px] mt-1.5 font-display text-lg font-medium">{item.title}</h3>
+                  <p className="m-0 text-[10px] text-muted">{item.subtitle}</p>
                 </div>
-                {hasStarted && <span className="audio-started" aria-label="Listening started"><CheckIcon size={15} /></span>}
+                {hasStarted && <span className="grid size-7 place-items-center rounded-full bg-[#2b7162] text-white" aria-label="Listening started"><CheckIcon size={15} /></span>}
               </div>
 
-              <div className="audio-controls">
-                <button className="audio-play" onClick={() => void toggleChapter(item.chapter)} aria-label={`${isPlaying ? "Pause" : "Play"} Genesis chapter ${item.chapter}`}>
+              <div className="mt-[18px] grid grid-cols-[auto_minmax(80px,1fr)] items-center gap-x-3 gap-y-2.5 border-t border-[#e8e5da] pt-4">
+                <button className={cx(focusRing, "grid size-[42px] cursor-pointer place-items-center rounded-full border-0 bg-[#e3ece7] text-forest")} onClick={() => void toggleChapter(item.chapter)} aria-label={`${isPlaying ? "Pause" : "Play"} Genesis chapter ${item.chapter}`}>
                   {isPlaying ? <PauseIcon size={18} /> : <PlayIcon size={18} />}
                 </button>
-                <div className="audio-timeline">
+                <div className="min-w-0">
                   <input
+                    className={cx(focusRing, "block h-[5px] w-full cursor-pointer accent-green disabled:cursor-not-allowed disabled:opacity-45")}
                     type="range"
                     min="0"
                     max={duration || 0}
@@ -109,15 +111,27 @@ export function AudioLibrary({ started, onStarted }: Props) {
                     aria-label={`Seek Genesis chapter ${item.chapter}`}
                     disabled={!duration}
                   />
-                  <div><span>{formatTime(currentTime)}</span><span>{duration ? formatTime(duration) : "--:--"}</span></div>
+                  <div className="mt-1.5 flex justify-between text-[9px] text-[#71807a] tabular-nums"><span>{formatTime(currentTime)}</span><span>{duration ? formatTime(duration) : "--:--"}</span></div>
                 </div>
-                <div className="speed-control" role="group" aria-label={`Playback speed for Genesis chapter ${item.chapter}`}>
-                  <button className={playbackRate === 1 ? "selected" : ""} onClick={() => changeRate(1)} aria-pressed={playbackRate === 1}>1x</button>
-                  <button className={playbackRate === 1.5 ? "selected" : ""} onClick={() => changeRate(1.5)} aria-pressed={playbackRate === 1.5}>1.5x</button>
+                <div className="col-span-full flex justify-end gap-[5px]" role="group" aria-label={`Playback speed for Genesis chapter ${item.chapter}`}>
+                  {[1, 1.5].map((rate) => (
+                    <button
+                      key={rate}
+                      className={cx(
+                        focusRing,
+                        "h-[29px] min-w-[43px] cursor-pointer rounded-full border border-[#ced7d1] bg-white text-[10px] font-extrabold text-[#5a7068]",
+                        playbackRate === rate && "border-forest bg-forest text-white",
+                      )}
+                      onClick={() => changeRate(rate as 1 | 1.5)}
+                      aria-pressed={playbackRate === rate}
+                    >
+                      {rate}x
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {errors[item.chapter] && <p className="audio-error" role="alert">This chapter could not play. Check your connection and try again.</p>}
+              {errors[item.chapter] && <p className="mb-0 mt-3 rounded-[9px] bg-[#f7e1dd] px-[11px] py-[9px] text-[10px] leading-[1.4] text-[#833a31]" role="alert">This chapter could not play. Check your connection and try again.</p>}
               <audio
                 ref={(node) => { audioRefs.current[item.chapter] = node; }}
                 src={item.source}
@@ -134,9 +148,9 @@ export function AudioLibrary({ started, onStarted }: Props) {
           );
         })}
       </div>
-      <p className="source-note">
+      <p className="mx-[3px] mb-0 mt-3 text-[10px] text-[#7a8581]">
         Audio: World English Bible, read by Winfred W. Henson. Public-domain recording provided by{" "}
-        <a href="https://ebible.org/eng-web/audio/" target="_blank" rel="noreferrer">eBible.org</a>.
+        <a className={cx(focusRing, "text-inherit")} href="https://ebible.org/eng-web/audio/" target="_blank" rel="noreferrer">eBible.org</a>.
       </p>
     </section>
   );

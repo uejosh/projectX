@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { CoinIcon, SparkleIcon } from "@/components/Icons";
+import { cx, displayHeading, eyebrow, primaryButton } from "@/lib/styles";
 
 type Props = {
   open: boolean;
@@ -65,21 +66,23 @@ export function QuestCelebration({ open, questTitle, soundEnabled, onClose }: Pr
 
   if (!open) return null;
   return (
-    <div ref={overlayRef} className="celebration-overlay quest-celebration-overlay" role="dialog" aria-modal="true" aria-labelledby="quest-celebration-title" onKeyDown={(event) => { if (event.key === "Escape") onClose(); }}>
-      <div className="confetti quest-confetti" aria-hidden="true">
+    <div ref={overlayRef} className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-[#08221de8] p-[22px] backdrop-blur-lg max-[560px]:p-3 max-[700px]:p-3" role="dialog" aria-modal="true" aria-labelledby="quest-celebration-title" onKeyDown={(event) => { if (event.key === "Escape") onClose(); }}>
+      <div className="confetti" aria-hidden="true">
         {Array.from({ length: 20 }, (_, index) => <i key={index} style={{ "--i": index } as React.CSSProperties} />)}
-        <span className="balloon balloon-one" /><span className="balloon balloon-two" /><span className="balloon balloon-three" />
+        <span className="balloon left-[8%] bg-[#ef8c7e] [animation-delay:-1s]" />
+        <span className="balloon left-[74%] bg-[#f0c85b] [animation-delay:-2.6s]" />
+        <span className="balloon left-[88%] bg-[#73b4a0] [animation-delay:-0.3s]" />
       </div>
-      <div className="celebration-card quest-celebration-card">
-        <button type="button" className="celebration-close" aria-label="Close reward popup" onClick={onClose}>×</button>
-        <SparkleIcon size={22} className="celebration-spark spark-one" />
-        <SparkleIcon size={18} className="celebration-spark spark-two" />
+      <div className="celebration-card quest-celebration-card relative max-h-[calc(100svh-32px)] w-[min(470px,100%)] overflow-y-auto rounded-[30px] border border-[#f6dc9359] bg-[radial-gradient(circle_at_50%_0,#8a6c26,#1a4d40_55%,#0b2d27_100%)] px-11 pb-[38px] pt-12 text-center text-white shadow-[0_35px_100px_#00000080] max-[560px]:rounded-3xl max-[560px]:px-5 max-[560px]:pb-[22px] max-[560px]:pt-7 max-[700px]:rounded-3xl max-[700px]:px-5 max-[700px]:pb-[22px] max-[700px]:pt-7">
+        <button type="button" className="absolute top-[13px] right-[13px] z-[4] grid size-11 cursor-pointer place-items-center rounded-full border border-[#ffffff42] bg-[#061d18a8] text-[27px] leading-none text-white hover:bg-[#ffffff24]" aria-label="Close reward popup" onClick={onClose}>×</button>
+        <SparkleIcon size={22} className="celebration-spark absolute top-[20%] left-[13%] text-[#f8d97d]" />
+        <SparkleIcon size={18} className="celebration-spark absolute top-[29%] right-[15%] text-[#f8d97d]" />
         <div className="coin-pedestal"><CoinIcon size={66} /></div>
-        <p className="eyebrow">Quest complete</p>
-        <h2 id="quest-celebration-title">Beautifully remembered!</h2>
-        <p>{questTitle}</p>
-        <div className="reward-pill coin-reward-pill"><CoinIcon size={18} /> +1 gold coin</div>
-        <button ref={closeRef} className="primary-button" onClick={onClose}>Continue</button>
+        <p className={cx("eyebrow", eyebrow)}>Quest complete</p>
+        <h2 className={cx(displayHeading, "my-2 text-[38px] leading-[1.08] max-[560px]:my-1.5 max-[560px]:text-[28px] max-[700px]:my-1.5 max-[700px]:text-[28px]")} id="quest-celebration-title">Beautifully remembered!</h2>
+        <p className="text-[13px] leading-[1.6] text-[#d0ded9] max-[560px]:mb-0 max-[560px]:text-xs max-[560px]:leading-[1.45] max-[700px]:mb-0 max-[700px]:text-xs max-[700px]:leading-[1.45]">{questTitle}</p>
+        <div className="reward-pill mx-auto my-[23px] flex w-fit items-center gap-[7px] rounded-full border border-[#f7db8959] bg-[#5f4a1647] px-[13px] py-[9px] text-xs font-extrabold text-[#ffe28a] max-[560px]:my-3.5 max-[700px]:my-3.5"><CoinIcon size={18} /> +1 gold coin</div>
+        <button ref={closeRef} className={cx("primary-button relative z-[2] min-w-[180px]", primaryButton, "bg-[#f5d986] text-[#30270e] shadow-none")} onClick={onClose}>Continue</button>
       </div>
     </div>
   );

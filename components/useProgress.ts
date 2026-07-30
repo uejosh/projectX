@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import {
   PROGRESS_KEY,
   createInitialProgress,
@@ -13,9 +13,8 @@ function makeAnonymousId() {
   return `guest-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-function loadInitialProgress() {
+function loadStoredProgress() {
   const anonymousId = makeAnonymousId();
-  if (typeof window === "undefined") return createInitialProgress(anonymousId);
   try {
     const stored = localStorage.getItem(PROGRESS_KEY);
     return stored ? normalizeProgress(JSON.parse(stored), anonymousId) : createInitialProgress(anonymousId);
@@ -24,11 +23,16 @@ function loadInitialProgress() {
   }
 }
 
-const subscribeToHydration = () => () => {};
-
 export function useProgress() {
-  const [progress, setProgress] = useState<ProgressState>(loadInitialProgress);
-  const hydrated = useSyncExternalStore(subscribeToHydration, () => true, () => false);
+  const [progress, setProgress] = useState<ProgressState>(() => createInitialProgress("pending"));
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      setProgress(loadStoredProgress());
+      setHydrated(true);
+    });
+  }, []);
 
   useEffect(() => {
     if (!hydrated) return;
