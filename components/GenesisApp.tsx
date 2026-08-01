@@ -195,7 +195,15 @@ export function GenesisApp() {
               <p className="text-[13px] text-muted max-[560px]:hidden">6 units · 50 chapters</p>
             </div>
             <div className="relative grid gap-3.5 before:absolute before:top-[70px] before:bottom-[70px] before:left-[43px] before:border-l-2 before:border-dashed before:border-[#cad3cc] max-[560px]:before:left-8">
-              <article className={cx(unitCard, "border-[#9eb9ae] bg-paper shadow-soft")}>
+              <article
+                className={cx(unitCard, "border-[#9eb9ae] bg-cover bg-[center_right] shadow-soft")}
+                style={{
+                  backgroundImage: `linear-gradient(90deg,#fffdf7 0%,#fffdf7f2 58%,#fffdf73d 100%),url("/images/genesis/creation-and-fall.png")`,
+                  backgroundPosition: "center, right center",
+                  backgroundSize: "cover, auto 100%",
+                  backgroundRepeat: "no-repeat",
+                }}
+              >
                 <div className={unitNumber}><span>UNIT</span><strong>1</strong></div>
                 <div>
                   <div className={unitTopline}><span>Genesis 1–3</span>{progress.gemAwarded && <span className="inline-flex items-center gap-1 rounded-full bg-[#fff3ce] px-[7px] py-1 text-[#8c650c] max-[560px]:hidden"><GemIcon size={14}/> Badge earned</span>}</div>
@@ -214,7 +222,7 @@ export function GenesisApp() {
                   style={unit.imageSource ? {
                     backgroundImage: `linear-gradient(90deg,#fffdf7 0%,#fffdf7f2 58%,#fffdf73d 100%),url("${unit.imageSource}")`,
                     backgroundPosition: "center, right center",
-                    backgroundSize: "cover, 46% 100%",
+                    backgroundSize: "cover, auto 100%",
                     backgroundRepeat: "no-repeat",
                   } : undefined}
                   key={unit.number}
@@ -235,7 +243,7 @@ export function GenesisApp() {
         <main className="relative isolate mx-auto max-w-[1080px] overflow-clip px-[30px] pb-[90px] pt-7 max-[560px]:px-[17px]">
           <FloatingCreationSvgs variant="unit" />
           <button className={cx(iconTextButton, "relative z-[1]")} onClick={() => setView("path")}><BackIcon size={17}/> Genesis journey</button>
-          <section className="relative z-[1] mt-[18px] grid min-h-[330px] grid-cols-[1fr_auto] items-center gap-[50px] overflow-hidden rounded-[28px] bg-[linear-gradient(90deg,#072f2be8_0%,#125246d9_58%,#133d33b8_100%),url('/images/genesis/eden-trees-wide.webp')] bg-cover bg-center px-[60px] py-[55px] text-white shadow-soft after:absolute after:-top-1/4 after:right-[8%] after:text-[330px] after:leading-none after:text-[#f6da8914] after:content-['✦'] max-[800px]:grid-cols-1 max-[800px]:px-10 max-[560px]:rounded-[22px] max-[560px]:px-[25px] max-[560px]:py-9">
+          <section className="relative z-[1] mt-[18px] grid min-h-[330px] grid-cols-[1fr_auto] items-center gap-[50px] overflow-hidden rounded-[28px] bg-[linear-gradient(90deg,#072f2bf2_0%,#125246d9_58%,#133d337d_100%),url('/images/genesis/creation-and-fall.png')] bg-cover bg-center px-[60px] py-[55px] text-white shadow-soft after:absolute after:-top-1/4 after:right-[8%] after:text-[330px] after:leading-none after:text-[#f6da8914] after:content-['✦'] max-[800px]:grid-cols-1 max-[800px]:px-10 max-[560px]:rounded-[22px] max-[560px]:px-[25px] max-[560px]:py-9">
             <div className="unit-hero-copy relative z-[1]">
               <p className={cx(eyebrow, "text-[#c1d7ce]")}>Unit 1 · Genesis 1–3</p>
               <h1 className={cx(displayHeading, "mb-[22px] text-[clamp(47px,6vw,69px)] leading-[.97] max-[560px]:text-5xl")}>Creation<br />and the Fall</h1>

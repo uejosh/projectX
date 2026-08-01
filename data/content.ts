@@ -116,9 +116,9 @@ export const storySequences: StorySequenceData[] = [
   },
   {
     id: "garden-fall", title: "From garden to exile", reference: "Genesis 2:7-25; 3:1-24", prompt: "Place the key moments of Eden and the fall in sequence.",
-    previewImage: "/images/genesis/fall-choice.webp",
-    backdropImage: "/images/genesis/eden-trees-close.webp",
-    imageAlt: "Adam and Eve standing near the tree in the garden.",
+    previewImage: "/images/genesis/genesis-3-11.png",
+    backdropImage: "/images/genesis/genesis-3-24.png",
+    imageAlt: "Adam and Eve hiding in Eden after eating from the tree.",
     cards: [
       { id: "formed", eyebrow: "First", title: "Adam is formed", description: "God forms the man from dust and breathes life into him.", symbol: "◌", tone: "people" },
       { id: "eden", eyebrow: "Then", title: "Eden is planted", description: "God places the man in the garden to cultivate and keep it.", symbol: "⌁", tone: "garden" },
@@ -243,9 +243,9 @@ export function nextQuest(current: QuestRef): QuestRef | null {
 }
 
 export const upcomingUnits = [
-  { number: 2, title: "Cain, Abel & Noah", chapters: "Genesis 4-9", imageSource: null },
+  { number: 2, title: "Cain, Abel & Noah", chapters: "Genesis 4-9", imageSource: "/images/genesis/cain-abel-noah.png" },
   { number: 3, title: "Nations & Babel", chapters: "Genesis 10-11", imageSource: "/images/genesis/tower-of-babel.webp" },
-  { number: 4, title: "Abraham's journey", chapters: "Genesis 12-25", imageSource: null },
-  { number: 5, title: "Isaac & Jacob", chapters: "Genesis 26-36", imageSource: null },
-  { number: 6, title: "Joseph's story", chapters: "Genesis 37-50", imageSource: null }
+  { number: 4, title: "Abraham's journey", chapters: "Genesis 12-25", imageSource: "/images/genesis/abrahams-journey.png" },
+  { number: 5, title: "Isaac & Jacob", chapters: "Genesis 26-36", imageSource: "/images/genesis/isaac-jacob.png" },
+  { number: 6, title: "Joseph's story", chapters: "Genesis 37-50", imageSource: "/images/genesis/josephs-journey.png" }
 ];
