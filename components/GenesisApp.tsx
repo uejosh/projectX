@@ -156,8 +156,8 @@ export function GenesisApp() {
         </button>
         <div className="flex items-center gap-3 max-[560px]:gap-1.5">
           <button className={cx(focusRing, "grid size-[35px] cursor-pointer place-items-center rounded-full border border-[#d7ddd8] bg-[#f7f5ed] text-[#536b63] max-[560px]:size-8")} onClick={() => updateProgress((current) => ({ ...current, soundEnabled: !current.soundEnabled }))} aria-label={progress.soundEnabled ? "Mute celebration sounds" : "Turn on celebration sounds"} aria-pressed={!progress.soundEnabled}>{progress.soundEnabled ? <VolumeIcon size={17} /> : <VolumeOffIcon size={17} />}</button>
-          <div className={cx(counter, "border border-[#e8cf74] bg-[#fff1be] text-[#805c0d]")} aria-label={`${coins} gold coins earned`}><CoinIcon size={18} /><strong>{coins}</strong></div>
-          <div className={cx(counter, "border border-[#e3c56f] bg-[#fff3cb] text-[#77520e]")} aria-label={`${progress.gemAwarded ? 1 : 0} Creation badges earned`}><GemIcon size={18} /><strong>{progress.gemAwarded ? 1 : 0}</strong></div>
+          <div className={cx(counter, "border border-[#15584c] bg-forest text-[#f7e7ba]")} aria-label={`${coins} gold coins earned`}><CoinIcon size={18} /><strong>{coins}</strong></div>
+          <div className={cx(counter, "border border-[#15584c] bg-forest text-[#f7e7ba]")} aria-label={`${progress.gemAwarded ? 1 : 0} Creation badges earned`}><GemIcon size={18} /><strong>{progress.gemAwarded ? 1 : 0}</strong></div>
           <span className="rounded-full bg-[#f0eee6] px-[13px] py-[9px] text-xs font-bold text-muted max-[560px]:hidden">Guest journey</span>
         </div>
       </header>
