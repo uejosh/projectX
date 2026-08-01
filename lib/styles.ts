@@ -54,7 +54,7 @@ export const activityShell =
   "relative isolate min-h-screen overflow-hidden bg-[linear-gradient(180deg,#f9f3e5_0,#edf3e9_58%,#e7eee4_100%)]";
 
 export const activityHeader =
-  "relative z-[2] flex h-[70px] items-center justify-between border-b border-line bg-[#fffdf7e8] px-[max(24px,calc((100vw-900px)/2))] max-[560px]:px-[13px]";
+  "relative z-[2] flex h-[70px] items-center justify-between border-b border-line bg-[#fffdf7e8] px-[max(24px,calc((100vw-900px)/2))] backdrop-blur-[10px] max-[560px]:px-[13px]";
 
 export const activityKind =
   "flex items-center gap-[7px] rounded-full bg-[#e7ede9] px-[11px] py-[7px] text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#49675e]";
@@ -63,7 +63,7 @@ export const activityMain =
   "relative z-[2] mx-auto w-full max-w-[900px] px-[25px] pb-[90px] pt-[60px] max-[560px]:px-4 max-[560px]:pb-[70px] max-[560px]:pt-[42px]";
 
 export const activityIntro =
-  "mx-auto mb-[38px] max-w-[680px] rounded-3xl bg-[#fffdf7b8] px-6 py-[18px] text-center shadow-[0_12px_40px_#173f3510] max-[560px]:px-3.5 max-[560px]:py-3";
+  "mx-auto mb-[38px] max-w-[680px] rounded-3xl bg-[#fffdf7b8] px-6 py-[18px] text-center shadow-[0_12px_40px_#173f3510] backdrop-blur-lg max-[560px]:px-3.5 max-[560px]:py-3";
 
 export const activityIntroTitle = cx(
   displayHeading,

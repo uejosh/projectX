@@ -171,6 +171,9 @@ export function GenesisApp() {
         <main>
           <Ripple className="overflow-hidden bg-[#071726]" amplitude={0.38} speed={0.55} wavelength={95} rings={2} decay={1.2} refraction={65} dispersion={0.25} shine={0.7} trigger="hover" interval={4.5}>
             <section className={pathHero}>
+              <div className="absolute inset-0 -z-[1] bg-[radial-gradient(circle_at_70%_18%,#76dcff_0_1px,transparent_2px),radial-gradient(circle_at_85%_72%,#fff_0_1px,transparent_2px)] bg-[length:120px_90px,170px_140px] opacity-30 motion-safe:animate-pulse" />
+              <div className="absolute inset-x-0 bottom-0 -z-[1] h-[155px] bg-[linear-gradient(transparent,#061923b8)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_73%_50%,#28b5ff24,transparent_35%)]" />
               <div className={heroCopy}>
                 <p className={cx(eyebrow, "text-[#c1d7ce]")}>English Bible · World English Bible</p>
                 <h1 className={heroTitle}>Begin at the<br /><em>beginning.</em></h1>
@@ -209,9 +212,9 @@ export function GenesisApp() {
                 <article
                   className={cx(unitCard, "locked-unit", unit.imageSource && "bg-cover bg-[center_right]")}
                   style={unit.imageSource ? {
-                    backgroundImage: `url("${unit.imageSource}")`,
-                    backgroundPosition: "right center",
-                    backgroundSize: "46% 100%",
+                    backgroundImage: `linear-gradient(90deg,#fffdf7 0%,#fffdf7f2 58%,#fffdf73d 100%),url("${unit.imageSource}")`,
+                    backgroundPosition: "center, right center",
+                    backgroundSize: "cover, 46% 100%",
                     backgroundRepeat: "no-repeat",
                   } : undefined}
                   key={unit.number}
@@ -232,13 +235,13 @@ export function GenesisApp() {
         <main className="relative isolate mx-auto max-w-[1080px] overflow-clip px-[30px] pb-[90px] pt-7 max-[560px]:px-[17px]">
           <FloatingCreationSvgs variant="unit" />
           <button className={cx(iconTextButton, "relative z-[1]")} onClick={() => setView("path")}><BackIcon size={17}/> Genesis journey</button>
-          <section className="relative z-[1] mt-[18px] grid min-h-[330px] grid-cols-[1fr_auto] items-center gap-[50px] overflow-hidden rounded-[28px] bg-[url('/images/genesis/eden-trees-wide.webp')] bg-cover bg-center px-[60px] py-[55px] text-white shadow-soft max-[800px]:grid-cols-1 max-[800px]:px-10 max-[560px]:rounded-[22px] max-[560px]:px-[25px] max-[560px]:py-9">
-            <div className="unit-hero-copy relative z-[1] text-shadow-[0_2px_12px_#000,0_1px_3px_#000]">
+          <section className="relative z-[1] mt-[18px] grid min-h-[330px] grid-cols-[1fr_auto] items-center gap-[50px] overflow-hidden rounded-[28px] bg-[linear-gradient(90deg,#072f2be8_0%,#125246d9_58%,#133d33b8_100%),url('/images/genesis/eden-trees-wide.webp')] bg-cover bg-center px-[60px] py-[55px] text-white shadow-soft after:absolute after:-top-1/4 after:right-[8%] after:text-[330px] after:leading-none after:text-[#f6da8914] after:content-['✦'] max-[800px]:grid-cols-1 max-[800px]:px-10 max-[560px]:rounded-[22px] max-[560px]:px-[25px] max-[560px]:py-9">
+            <div className="unit-hero-copy relative z-[1]">
               <p className={cx(eyebrow, "text-[#c1d7ce]")}>Unit 1 · Genesis 1–3</p>
               <h1 className={cx(displayHeading, "mb-[22px] text-[clamp(47px,6vw,69px)] leading-[.97] max-[560px]:text-5xl")}>Creation<br />and the Fall</h1>
               <p className="m-0 max-w-[580px] leading-[1.7] text-[#d0ded9]">Listen closely. Rebuild the words. Trace the story from a world without form to the gates of Eden.</p>
             </div>
-            <div className="unit-progress-card relative z-[2] w-[220px] rounded-[22px] border border-[#ffffff24] bg-[#ffffff17] p-6 text-center max-[800px]:m-0 max-[800px]:flex max-[800px]:w-full max-[800px]:items-center max-[800px]:gap-5 max-[800px]:text-left max-[560px]:p-4">
+            <div className="unit-progress-card relative z-[2] w-[220px] rounded-[22px] border border-[#ffffff24] bg-[#ffffff17] p-6 text-center backdrop-blur-lg max-[800px]:m-0 max-[800px]:flex max-[800px]:w-full max-[800px]:items-center max-[800px]:gap-5 max-[800px]:text-left max-[560px]:p-4">
               <div className="mx-auto mb-[18px] grid size-[118px] place-items-center rounded-full bg-[conic-gradient(#f5d986_var(--progress),#ffffff21_0)] p-2 max-[800px]:m-0 max-[800px]:size-[100px] max-[800px]:shrink-0 max-[560px]:size-[82px]" style={{ "--progress": `${percent * 3.6}deg` } as React.CSSProperties}>
                 <div className="grid size-full place-content-center rounded-full bg-[#174b42]"><strong className="font-display text-[25px] font-medium">{percent}%</strong><span className="text-[9px] uppercase tracking-[0.12em] text-[#b7ccc5]">complete</span></div>
               </div>
@@ -272,7 +275,7 @@ export function GenesisApp() {
                   const done = isQuestComplete(progress, story.id);
                   return (
                     <button className={storyCard} key={story.id} onClick={() => setActivity({ type: "story", id: story.id })}>
-                      <div className="relative flex min-h-[190px] flex-col items-center justify-end bg-cover bg-center p-4 text-[#f4dea1] max-[560px]:min-h-[175px]" role="img" aria-label={story.imageAlt} style={{ backgroundImage: `url("${story.previewImage}")` }}><small className="relative m-0 rounded-full bg-[#06251fc7] px-2.5 py-[7px] text-[9px] uppercase tracking-[0.1em] text-white">{story.cards.length} moments</small></div>
+                      <div className="relative flex min-h-[190px] flex-col items-center justify-end bg-cover bg-center p-4 text-[#f4dea1] max-[560px]:min-h-[175px]" role="img" aria-label={story.imageAlt} style={{ backgroundImage: `linear-gradient(180deg,#0a2b2412 20%,#071f1bcf 100%),url("${story.previewImage}")` }}><small className="relative m-0 rounded-full bg-[#06251fc7] px-2.5 py-[7px] text-[9px] uppercase tracking-[0.1em] text-white">{story.cards.length} moments</small></div>
                       <div className="p-[25px] max-[560px]:px-4 max-[560px]:py-5"><span className="text-[9px] font-extrabold uppercase tracking-[0.11em] text-[#71817b]">Story sequence</span><h3 className="my-[7px] font-display text-2xl font-medium">{story.title}</h3><p className="text-[11px] text-muted">{story.reference}</p><span className={storyCta}>{done ? <><CheckIcon size={16}/> Completed</> : <>Begin sequence <ArrowIcon size={16}/></>}</span></div>
                     </button>
                   );
@@ -287,7 +290,7 @@ export function GenesisApp() {
                   const done = isQuestComplete(progress, quest.id);
                   return (
                     <button className={cx(understandingCard, done && "border-[#a6c6b7] bg-[#f7fbf8]")} key={quest.id} onClick={() => setActivity({ type: "classification", id: quest.id })}>
-                      <div className="flex min-h-[220px] flex-col items-center justify-center bg-[url('/images/genesis/eden-trees-close.webp')] bg-cover bg-center text-[#f6e5aa] text-shadow-[0_2px_8px_#000] max-[900px]:min-h-[210px] max-[720px]:min-h-[190px] max-[560px]:min-h-[180px] max-[360px]:min-h-[110px]"><span className="font-display text-[62px] font-medium">?</span><small className="mt-[18px] text-[8px] uppercase tracking-[0.1em] text-[#fffbd0]">{quest.rounds.length} passages</small></div>
+                      <div className="flex min-h-[220px] flex-col items-center justify-center bg-[linear-gradient(#123e32a3,#123e32d9),url('/images/genesis/eden-trees-close.webp')] bg-cover bg-center text-[#f6e5aa] max-[900px]:min-h-[210px] max-[720px]:min-h-[190px] max-[560px]:min-h-[180px] max-[360px]:min-h-[110px]"><span className="font-display text-[62px] font-medium">?</span><small className="mt-[18px] text-[8px] uppercase tracking-[0.1em] text-[#fffbd0]">{quest.rounds.length} passages</small></div>
                       <div className="px-6 py-[26px] max-[560px]:px-4 max-[560px]:py-5 max-[360px]:p-[18px]"><span className="text-[9px] font-extrabold uppercase tracking-[0.11em] text-[#71817b]">Passage meaning</span><h3 className="my-[7px] font-display text-2xl font-medium max-[560px]:text-xl">{quest.title}</h3><p className="m-0 text-[11px] leading-[1.55] text-muted max-[560px]:hidden">Classify each passage and learn why the answer fits.</p><span className={storyCta}>{done ? <><CheckIcon size={16}/> Completed</> : <>Explore meaning <ArrowIcon size={16}/></>}</span></div>
                     </button>
                   );
@@ -296,7 +299,7 @@ export function GenesisApp() {
                   const done = isQuestComplete(progress, quest.id);
                   return (
                     <button className={cx(understandingCard, done && "border-[#a6c6b7] bg-[#f7fbf8]")} key={quest.id} onClick={() => setActivity({ type: "picture-match", id: quest.id })}>
-                      <div className="flex min-h-[220px] flex-col items-center justify-center bg-[url('/images/genesis/creation-stars.webp')] bg-cover bg-center text-[#f6e5aa] text-shadow-[0_2px_8px_#000] max-[900px]:min-h-[210px] max-[720px]:min-h-[190px] max-[560px]:min-h-[180px] max-[360px]:min-h-[110px]"><span className="font-display text-[62px] font-medium">✦</span><small className="mt-[18px] text-[8px] uppercase tracking-[0.1em] text-[#fffbd0]">{quest.pairs.length} scenes</small></div>
+                      <div className="flex min-h-[220px] flex-col items-center justify-center bg-[linear-gradient(#061c2c52,#061c2cb8),url('/images/genesis/creation-stars.webp')] bg-cover bg-center text-[#f6e5aa] max-[900px]:min-h-[210px] max-[720px]:min-h-[190px] max-[560px]:min-h-[180px] max-[360px]:min-h-[110px]"><span className="font-display text-[62px] font-medium">✦</span><small className="mt-[18px] text-[8px] uppercase tracking-[0.1em] text-[#fffbd0]">{quest.pairs.length} scenes</small></div>
                       <div className="px-6 py-[26px] max-[560px]:px-4 max-[560px]:py-5 max-[360px]:p-[18px]"><span className="text-[9px] font-extrabold uppercase tracking-[0.11em] text-[#71817b]">Visual connection</span><h3 className="my-[7px] font-display text-2xl font-medium max-[560px]:text-xl">{quest.title}</h3><p className="m-0 text-[11px] leading-[1.55] text-muted max-[560px]:hidden">Connect creation, the first human, and Eden to Scripture.</p><span className={storyCta}>{done ? <><CheckIcon size={16}/> Completed</> : <>Match scenes <ArrowIcon size={16}/></>}</span></div>
                     </button>
                   );

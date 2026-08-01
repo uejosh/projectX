@@ -66,7 +66,7 @@ export function QuestCelebration({ open, questTitle, soundEnabled, onClose }: Pr
 
   if (!open) return null;
   return (
-    <div ref={overlayRef} className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-[#08221de8] p-[22px] max-[560px]:p-3 max-[700px]:p-3" role="dialog" aria-modal="true" aria-labelledby="quest-celebration-title" onKeyDown={(event) => { if (event.key === "Escape") onClose(); }}>
+    <div ref={overlayRef} className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-[#08221de8] p-[22px] backdrop-blur-lg max-[560px]:p-3 max-[700px]:p-3" role="dialog" aria-modal="true" aria-labelledby="quest-celebration-title" onKeyDown={(event) => { if (event.key === "Escape") onClose(); }}>
       <div className="confetti" aria-hidden="true">
         {Array.from({ length: 20 }, (_, index) => <i key={index} style={{ "--i": index } as React.CSSProperties} />)}
         <span className="balloon left-[8%] bg-[#ef8c7e] [animation-delay:-1s]" />

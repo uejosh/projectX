@@ -13,10 +13,14 @@
   inset: 0;
   background-position: center;
   background-size: cover;
-  opacity: 1;
-  filter: none;
-  mask-image: none;
+  opacity: .18;
+  filter: saturate(.9) contrast(1.03);
+  mask-image: linear-gradient(90deg, transparent 0, #000 20%, #000 80%, transparent 100%);
 }
+
+.creation-sequence .creation-scene-image { opacity: .26; }
+.creation-classification .creation-scene-image { opacity: .16; }
+.creation-picture-match .creation-scene-image { opacity: .2; }
 
 .creation-sun {
   position: absolute;
@@ -191,7 +195,7 @@
 }
 
 @media (max-width: 560px) {
-  .creation-backdrop { opacity: 1; }
+  .creation-backdrop { opacity: .72; }
   .creation-tree { opacity: .32; }
   .creation-hills { height: 170px; }
   .creation-stars { display: none; }

@@ -1,5 +1,5 @@
-const CACHE = "jx-genesis-shell-v4";
-const SHELL = ["/", "/manifest.webmanifest", "/icon.svg", "/images/genesis/solar-system-sun.jpg", "/images/genesis/creation-stars.webp", "/images/genesis/adam-formed.webp", "/images/genesis/fall-choice.webp", "/images/genesis/creation-fish-close.webp", "/images/genesis/creation-fish-school.webp", "/images/genesis/eden-trees-close.webp", "/images/genesis/eden-trees-wide.webp", "/images/genesis/tower-of-babel.webp", "/images/rewards/red-gem.png", "/images/rewards/reward-coin-golden.png"];
+const CACHE = "jx-genesis-shell-v3";
+const SHELL = ["/", "/manifest.webmanifest", "/icon.svg", "/images/genesis/solar-system-sun.jpg", "/images/genesis/creation-stars.webp", "/images/genesis/adam-formed.webp", "/images/genesis/fall-choice.webp", "/images/genesis/creation-fish-close.webp", "/images/genesis/creation-fish-school.webp", "/images/genesis/eden-trees-close.webp", "/images/genesis/eden-trees-wide.webp", "/images/genesis/tower-of-babel.webp", "/images/rewards/blue-gem.png", "/images/rewards/reward-coin.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(SHELL)));

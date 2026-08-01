@@ -6,7 +6,7 @@
   background-repeat: no-repeat;
   background-size: contain;
   vertical-align: middle;
-  filter: none;
+  filter: drop-shadow(0 2px 3px #0003);
 }
 
 .confetti {
@@ -71,7 +71,7 @@
 
 .gem-pedestal .reward-art-icon,
 .coin-pedestal .reward-art-icon {
-  filter: none;
+  filter: drop-shadow(0 10px 14px #0006);
 }
 
 .coin-pedestal .reward-art-icon {
