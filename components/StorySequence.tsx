@@ -105,7 +105,7 @@ export function StorySequence({ story, completed, onComplete, onBackToUnit, onCo
           {cards.map((card, index) => (
             <li
               className={cx(
-                "sequence-card grid min-h-[105px] grid-cols-[34px_65px_1fr_auto] items-center gap-3.5 rounded-[17px] border border-line bg-[#fffdf8e8] px-3.5 py-[13px] shadow-[0_12px_35px_#19362e10] backdrop-blur-[7px]",
+                "sequence-card grid min-h-[105px] grid-cols-[34px_65px_1fr_auto] items-center gap-3.5 rounded-[17px] border border-line bg-[#fffdf8e8] px-3.5 py-[13px] shadow-[0_12px_35px_#19362e10]",
                 "[&:nth-child(4n+1)]:border-l-[5px] [&:nth-child(4n+1)]:border-l-[#e6b945] [&:nth-child(4n+2)]:border-l-[5px] [&:nth-child(4n+2)]:border-l-[#64a3b7]",
                 "[&:nth-child(4n+3)]:border-l-[5px] [&:nth-child(4n+3)]:border-l-[#70a85c] [&:nth-child(4n)]:border-l-[5px] [&:nth-child(4n)]:border-l-[#b1788d]",
                 "max-[560px]:grid-cols-[28px_51px_1fr_auto] max-[560px]:gap-2 max-[560px]:px-2 max-[560px]:py-2.5",

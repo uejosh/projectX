@@ -32,7 +32,7 @@ export function Celebration({ open, onClose }: Props) {
 
   if (!open) return null;
   return (
-    <div ref={overlayRef} className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-[#031714db] p-[22px] backdrop-blur-lg max-[560px]:p-3 max-[700px]:p-3" role="dialog" aria-modal="true" aria-labelledby="celebration-title" onKeyDown={(event) => { if (event.key === "Escape") onClose(); }}>
+    <div ref={overlayRef} className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto overscroll-contain bg-[#031714db] p-[22px] max-[560px]:p-3 max-[700px]:p-3" role="dialog" aria-modal="true" aria-labelledby="celebration-title" onKeyDown={(event) => { if (event.key === "Escape") onClose(); }}>
       <div className="confetti" aria-hidden="true">
         {Array.from({ length: 24 }, (_, index) => <i key={index} style={{ "--i": index } as React.CSSProperties} />)}
       </div>
