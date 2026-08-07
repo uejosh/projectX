@@ -53,6 +53,13 @@ import {
 type Activity = QuestRef | null;
 type QuestCelebrationState = { title: string; earnsGem: boolean } | null;
 
+const journeyCardArtwork = (imageSource: string): React.CSSProperties => ({
+  backgroundImage: `linear-gradient(90deg,#fffdf7 0%,#fffdf7 48%,#fffdf7f7 56%,#fffdf7b8 68%,#fffdf72e 82%,#fffdf700 100%),url("${imageSource}")`,
+  backgroundPosition: "center, right center",
+  backgroundSize: "cover, 58% auto",
+  backgroundRepeat: "no-repeat",
+});
+
 gsap.registerPlugin(useGSAP);
 
 export function GenesisApp() {
@@ -156,8 +163,8 @@ export function GenesisApp() {
         </button>
         <div className="flex items-center gap-3 max-[560px]:gap-1.5">
           <button className={cx(focusRing, "grid size-[35px] cursor-pointer place-items-center rounded-full border border-[#d7ddd8] bg-[#f7f5ed] text-[#536b63] max-[560px]:size-8")} onClick={() => updateProgress((current) => ({ ...current, soundEnabled: !current.soundEnabled }))} aria-label={progress.soundEnabled ? "Mute celebration sounds" : "Turn on celebration sounds"} aria-pressed={!progress.soundEnabled}>{progress.soundEnabled ? <VolumeIcon size={17} /> : <VolumeOffIcon size={17} />}</button>
-          <div className={cx(counter, "border border-[#15584c] bg-forest text-[#f7e7ba]")} aria-label={`${coins} gold coins earned`}><CoinIcon size={18} /><strong>{coins}</strong></div>
-          <div className={cx(counter, "border border-[#15584c] bg-forest text-[#f7e7ba]")} aria-label={`${progress.gemAwarded ? 1 : 0} Creation badges earned`}><GemIcon size={18} /><strong>{progress.gemAwarded ? 1 : 0}</strong></div>
+          <div className={cx(counter, "border border-[#c8d9d2] bg-pale text-forest")} aria-label={`${coins} gold coins earned`}><CoinIcon size={18} /><strong>{coins}</strong></div>
+          <div className={cx(counter, "border border-[#c8d9d2] bg-pale text-forest")} aria-label={`${progress.gemAwarded ? 1 : 0} Creation badges earned`}><GemIcon size={18} /><strong>{progress.gemAwarded ? 1 : 0}</strong></div>
           <span className="rounded-full bg-[#f0eee6] px-[13px] py-[9px] text-xs font-bold text-muted max-[560px]:hidden">Guest journey</span>
         </div>
       </header>
@@ -197,12 +204,7 @@ export function GenesisApp() {
             <div className="relative grid gap-3.5 before:absolute before:top-[70px] before:bottom-[70px] before:left-[43px] before:border-l-2 before:border-dashed before:border-[#cad3cc] max-[560px]:before:left-8">
               <article
                 className={cx(unitCard, "border-[#9eb9ae] bg-cover bg-[center_right] shadow-soft")}
-                style={{
-                  backgroundImage: `linear-gradient(90deg,#fffdf7 0%,#fffdf7f2 58%,#fffdf73d 100%),url("/images/genesis/creation-and-fall.png")`,
-                  backgroundPosition: "center, right center",
-                  backgroundSize: "cover, auto 100%",
-                  backgroundRepeat: "no-repeat",
-                }}
+                style={journeyCardArtwork("/images/genesis/creation-and-fall.png")}
               >
                 <div className={unitNumber}><span>UNIT</span><strong>1</strong></div>
                 <div>
@@ -219,12 +221,7 @@ export function GenesisApp() {
               {upcomingUnits.map((unit) => (
                 <article
                   className={cx(unitCard, "locked-unit", unit.imageSource && "bg-cover bg-[center_right]")}
-                  style={unit.imageSource ? {
-                    backgroundImage: `linear-gradient(90deg,#fffdf7 0%,#fffdf7f2 58%,#fffdf73d 100%),url("${unit.imageSource}")`,
-                    backgroundPosition: "center, right center",
-                    backgroundSize: "cover, auto 100%",
-                    backgroundRepeat: "no-repeat",
-                  } : undefined}
+                  style={unit.imageSource ? journeyCardArtwork(unit.imageSource) : undefined}
                   key={unit.number}
                 >
                   <div className={cx(unitNumber, "bg-[#e5e7e1] text-[#6f7d77] [&_span]:text-[#84908b]")}><span>UNIT</span><strong>{unit.number}</strong></div>
