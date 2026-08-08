@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { AudioLibrary } from "@/components/AudioLibrary";
 import { Celebration } from "@/components/Celebration";
 import { Ripple } from "@/components/canvasui/Ripple";
+import { Laser } from "@/components/canvasui/Laser";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { FloatingCreationSvgs } from "@/components/FloatingCreationSvgs";
 import { QuestCelebration } from "@/components/QuestCelebration";
@@ -176,7 +177,8 @@ export function GenesisApp() {
         </main>
       ) : view === "path" ? (
         <main>
-          <Ripple className="overflow-hidden bg-[#071726]" amplitude={0.38} speed={0.55} wavelength={95} rings={2} decay={1.2} refraction={65} dispersion={0.25} shine={0.7} trigger="hover" interval={4.5}>
+          <Laser className="relative h-[clamp(540px,62vw,650px)] max-[720px]:h-[650px] max-[560px]:h-[610px] overflow-hidden bg-[#071726]" color={[0.96, 0.74, 0.28]} speed={0.22} offset={56} thickness={3} core={0.8} radius={15} glow={1.1} wave={5} width={0.68} flicker={0.08} reveal={110} heat={0.3} shimmer={2} sparkle={0.1} reactivity={0.45}>
+            <Ripple className="h-full overflow-hidden bg-[#071726]" amplitude={0.38} speed={0.55} wavelength={95} rings={2} decay={1.2} refraction={65} dispersion={0.25} shine={0.7} trigger="hover" interval={4.5}>
             <section className={pathHero}>
               <div className="absolute inset-0 -z-[1] bg-[radial-gradient(circle_at_70%_18%,#76dcff_0_1px,transparent_2px),radial-gradient(circle_at_85%_72%,#fff_0_1px,transparent_2px)] bg-[length:120px_90px,170px_140px] opacity-30 motion-safe:animate-pulse" />
               <div className="absolute inset-x-0 bottom-0 -z-[1] h-[155px] bg-[linear-gradient(transparent,#061923b8)]" />
@@ -194,9 +196,11 @@ export function GenesisApp() {
                 <small className="mt-2.5 font-display text-sm italic text-[#e7f6fa] max-[720px]:hidden">In the beginning</small>
               </div>
             </section>
-          </Ripple>
+            </Ripple>
+          </Laser>
 
-          <section className="mx-auto max-w-[1080px] px-[30px] pb-[90px] pt-[72px] max-[560px]:px-[17px] max-[560px]:pt-[50px]" aria-labelledby="journey-heading">
+          <div className="homepage-below-hero">
+            <section className="mx-auto max-w-[1080px] px-[30px] pb-[90px] pt-[72px] max-[560px]:px-[17px] max-[560px]:pt-[50px]" aria-labelledby="journey-heading">
             <div className="mb-[30px] flex items-end justify-between">
               <div><p className={eyebrow}>The book of beginnings</p><h2 className={cx(displayHeading, "m-0 text-[42px] max-[560px]:text-[34px]")} id="journey-heading">Genesis journey</h2></div>
               <p className="text-[13px] text-muted max-[560px]:hidden">6 units · 50 chapters</p>
@@ -234,7 +238,8 @@ export function GenesisApp() {
                 </article>
               ))}
             </div>
-          </section>
+            </section>
+          </div>
         </main>
       ) : (
         <main className="relative isolate mx-auto max-w-[1080px] overflow-clip px-[30px] pb-[90px] pt-7 max-[560px]:px-[17px]">
